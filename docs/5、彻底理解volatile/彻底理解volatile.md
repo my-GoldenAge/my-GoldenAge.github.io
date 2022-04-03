@@ -46,7 +46,7 @@ class VolatileFeaturesExample {
 
 简而言之，volatile变量自身具有下列特性：
 
-- 可见性。对一个volatile变量的读，总是能看到（任意线程）对这个volatile变量最后的写入。 
+- 可见性：对一个volatile变量的读，总是能看到（任意线程）对这个volatile变量最后的写入。 
 - 原子性：对任意单个volatile变量的读/写具有原子性，但类似于volatile++这种复合操作不具有原子性。
 
 # 2、volatile 的实现原理
