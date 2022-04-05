@@ -7,4 +7,5 @@
 * [三大性质总结：原子性、可见性以及有序性](7、三大性质总结：原子性、可见性以及有序性/三大性质总结：原子性、可见性以及有序性 "三大性质总结：原子性、可见性以及有序性")
 * [初识Lock与AbstractQueuedSynchronizer(AQS)](8、初识Lock与AbstractQueuedSynchronizer(AQS)/初识Lock与AbstractQueuedSynchronizer(AQS).md "初识Lock与AbstractQueuedSynchronizer(AQS)")
 * [深入理解AbstractQueuedSynchronizer(AQS)](9、深入理解AbstractQueuedSynchronizer(AQS)/深入理解AbstractQueuedSynchronizer(AQS).md "深入理解AbstractQueuedSynchronizer(AQS)")
+* [彻底理解ReentrantLock](10、彻底理解ReentrantLock/彻底理解ReentrantLock.md "彻底理解ReentrantLock")
 
