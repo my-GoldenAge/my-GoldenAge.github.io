@@ -1,8 +1,10 @@
+# 彻底理解volatile
+
 synchronized是阻塞式同步，在线程竞争激烈的情况下会升级为重量级锁。而volatile就可以说是java虚拟机提供的最轻量级的同步机制。但它同时不容易被正确理解，也至于在并发编程中很多程序员遇到线程安全的问题就会使用synchronized。[Java内存模型](https://github.com/Sentinel-22/concurrent/blob/master/3%E3%80%81Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E4%BB%A5%E5%8F%8Ahappens-before/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E4%BB%A5%E5%8F%8Ahappens-before.md)告诉我们，各个线程会将共享变量从主内存中拷贝到工作内存，然后执行引擎会基于工作内存中的数据进行操作处理。线程在工作内存进行操作后何时会写到主内存中？这个时机对普通变量是没有规定的，而针对volatile修饰的变量给java虚拟机特殊的约定，线程对volatile变量的修改会立刻被其他线程所感知，即不会出现数据脏读的现象，从而保证数据的“可见性”。
 
 现在我们有了一个大概的印象就是：**被volatile修饰的变量能够保证每个线程能够获取该变量的最新值，从而避免出现数据脏读的现象。**
-# 
-# 1、volatile 的特性
+
+## 1、volatile 的特性
 
 理解volatile特性的一个好方法是把对volatile变量的单个读/写，看成是使用同一个锁对这些单个读/写操作做了同步。下面通过具体的示例来说明，示例代码如下。
 
@@ -49,7 +51,7 @@ class VolatileFeaturesExample {
 - 可见性：对一个volatile变量的读，总是能看到（任意线程）对这个volatile变量最后的写入。 
 - 原子性：对任意单个volatile变量的读/写具有原子性，但类似于volatile++这种复合操作不具有原子性。
 
-# 2、volatile 的实现原理
+## 2、volatile 的实现原理
 
 Java 语言规范第3版中对 volatile 的定义如下：
 
@@ -59,7 +61,7 @@ Java语言 提供了 volatile，在某些情况下比锁要更加方便。如果
 
 在了解 volatile 实现原理之前，我们先来看下与其实现原理相关的 CPU 术语与说明。
 
-![相关的CPU术语与说明](img(彻底理解volatile)/image-20220327164641390.png)
+ ![image-20220327164641390](./image/image-20220327164641390.png ':size=70%')
 
 volatile 是如何来保证可见性的呢？让我们在 X86 处理器下通过工具获取JIT编译器生成的汇编指令来查看对 volatile 进行写操作时，CPU会做什么事情。 
 
@@ -90,7 +92,7 @@ instance = new Instancce() //instance是volatile变量
 
 这样针对 volatile 变量通过这样的机制就使得每个线程都能获得该变量的最新值。
 
-# 3、volatile 的 happens-before 关系
+## 3、volatile 的 happens-before 关系
 
 经过上面的分析，我们已经知道了volatile变量可以通过**缓存一致性协议**保证每个线程都能获得最新值，即满足数据的“可见性”。我们继续延续上一篇分析问题的方式（我一直认为思考问题的方式是属于自己，也才是最重要的，也在不断培养这方面的能力），我一直将并发分析的切入点分为**两个核心，三大性质**。两大核心：JMM内存模型（主内存和工作内存）以及happens-before；三条性质：原子性，可见性，有序性（关于三大性质的总结在以后得文章会和大家共同探讨）。废话不多说，先来看两个核心之一：volatile的happens-before关系。
 
@@ -116,13 +118,13 @@ public class VolatileExample {
 
 上述happens-before关系的图形化表现形式如下：
 
-![happens-before](img(彻底理解volatile)/happens-before.jpg)
+ ![happens-before](./image/happens-before.jpg ':size=70%')
 
 在上图中，每一个箭头链接的两个节点，代表了一个happens-before关系。黑色箭头表示程序顺序规则；橙色箭头表示volatile规则；蓝色箭头表示组合这些规则后提供的happens-before保证。 
 
 这里A线程写一个volatile变量后，B线程读同一个volatile变量。A线程在写volatile变量之前所有可见的共享变量，在B线程读同一个volatile变量后，将立即变得对B线程可见。
 
-# 4、volatile的内存语义
+## 4、volatile的内存语义
 
 还是按照**两个核心**的分析方式，分析完happens-before关系后我们现在就来进一步分析volatile的内存语义。
 
@@ -132,7 +134,7 @@ volatile写的内存语义如下：
 
 以上面示例程序VolatileExample为例，假设线程A首先执行writer()方法，随后线程B执行reader()方法，初始时两个线程的本地内存中的flag和a都是初始状态。图3-17是线程A执行volatile写后，共享变量的状态示意图。
 
-![共享变量的状态示意图1](img(彻底理解volatile)/image-20220329150735822.png)
+ ![image-20220329150735822](./image/image-20220329150735822.png ':size=60%')
 
 如图，线程A在写flag变量后，本地内存A中被线程A更新过的两个共享变量的值被刷新到主内存中。此时，本地内存A和主内存中的共享变量的值是一致的。 
 
@@ -142,7 +144,7 @@ volatile读的内存语义如下：
 
 图3-18为线程B读同一个volatile变量后，共享变量的状态示意图。 
 
-![共享变量的状态示意图2](img(彻底理解volatile)/image-20220329150922305.png)
+ ![image-20220329150922305](./image/image-20220329150922305.png ':size=60%')
 
 如图所示，在读flag变量后，本地内存B包含的值已经被置为无效。此时，线程B必须从主内存中读取共享变量。线程B的读取操作将导致本地内存B与主内存中的共享变量的值变成一致。 
 
@@ -154,7 +156,7 @@ volatile读的内存语义如下：
 - 线程B读一个volatile变量，实质上是线程B接收了之前某个线程发出的（在写这个volatile变量之前对共享变量所做修改的）消息。 
 - 线程A写一个volatile变量，随后线程B读这个volatile变量，这个过程实质上是线程A通过主内存向线程B发送消息。
 
-# 5、volatile内存语义的实现
+## 5、volatile内存语义的实现
 
 我们都知道，为了性能优化，JMM在不改变正确语义的前提下，会允许编译器和处理器对指令序列进行重排序，那如果想阻止重排序要怎么办了？答案是可以添加内存屏障。
 
@@ -162,11 +164,11 @@ volatile读的内存语义如下：
 
 JMM内存屏障分为四类见下图
 
-![JMM内存屏障](img(彻底理解volatile)/image-20220329151324317.png)
+ ![image-20220329151324317](./image/image-20220329151324317.png ':size=70%')
 
 java编译器会在生成指令系列时在适当的位置会插入内存屏障指令来禁止特定类型的处理器重排序。为了实现volatile的内存语义，JMM会限制特定类型的编译器和处理器重排序，JMM会针对编译器制定volatile重排序规则表：
 
-![volatile重排序规则表](img(彻底理解volatile)/image-20220329151405399.png)
+ ![image-20220329151405399](./image/image-20220329151405399.png ':size=70%')
 
 举例来说，第三行最后一个单元格的意思是：在程序中，当第一个操作为普通变量的读或写时，如果第二个操作为volatile写，则编译器不能重排序这两个操作。 从上图可以看出：
 
@@ -192,13 +194,13 @@ java编译器会在生成指令系列时在适当的位置会插入内存屏障�
 
 如下图：
 
-![指令序列示意图1](img(彻底理解volatile)/image-20220329164851674.png)
+ ![image-20220329164851674](./image/image-20220329164851674.png ':size=60%')
 
-![指令序列示意图2](img(彻底理解volatile)/image-20220329164911472.png)
+ ![image-20220329164911472](./image/image-20220329164911472.png ':size=60%')
 
 上述volatile写和volatile读的内存屏障插入策略非常保守。在实际执行时，只要不改变volatile写-读的内存语义，编译器可以根据具体情况省略不必要的屏障。
 
-# 6、一个例子
+## 6、一个例子
 
 我们现在已经理解volatile的精华了，再重新认识一下以下代码：
 

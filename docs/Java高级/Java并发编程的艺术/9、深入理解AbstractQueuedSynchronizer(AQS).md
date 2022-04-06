@@ -1,6 +1,6 @@
-# 
+# 深入理解AbstractQueuedSynchronizer(AQS)
 
-# 1、AQS简介
+## 1、AQS简介
 
 在上一篇文章中我们对lock和AbstractQueuedSynchronizer(AQS)有了初步的认识。在同步组件的实现中，AQS是核心部分，同步组件的实现者通过使用AQS提供的模板方法实现同步组件语义，AQS则实现了对**同步状态的管理，以及对阻塞线程进行排队，等待通知**等等一些底层的实现处理。AQS的核心也包括了这些方面：**同步队列，独占式锁的获取和释放，共享锁的获取和释放以及可中断锁，超时等待锁获取这些特性的实现**，而这些实际上则是AQS提供出来的模板方法，归纳整理如下：
 
@@ -26,7 +26,7 @@
 
 要想掌握AQS的底层实现，其实也就是对这些模板方法的逻辑进行学习。在学习这些模板方法之前，我们得首先了解下AQS中的同步队列是一种什么样的数据结构，因为同步队列是AQS对同步状态的管理的基石。
 
-# 2、同步队列
+## 2、同步队列
 
 当共享资源被某个线程占有，其他请求该资源的线程将会阻塞，从而进入同步队列。就数据结构而言，队列的实现方式无外乎两者一是通过数组的形式，另外一种则是链表的形式。AQS中的同步队列则是**通过链式方式**进行实现。接下来，很显然我们至少会抱有这样的疑问：
 
@@ -62,15 +62,15 @@
 
 节点是构成同步队列的基础，同步器拥有首节点（head）和尾节点（tail），没有成功获取同步状态的线程将会成为节点加入该队列的尾部，同步队列的基本结构如图所示：
 
- ![image-20220404174332802](img-深入理解AbstractQueuedSynchronizer(AQS)/image-20220404174332802.png)
+ ![image-20220404174332802](./image/image-20220404174332802.png ':size=60%')
 
 如图，同步器包含了两个节点类型的引用，一个指向头节点，而另一个指向尾节点。试想一下，当一个线程成功地获取了同步状态（或者锁），其他线程将无法获取到同步状态，转而被构造成为节点并加入到同步队列中，而这个加入队列的过程必须要保证线程安全，因此同步器提供了一个基于CAS的设置尾节点的方法：compareAndSetTail(Node expect,Nodeupdate)，它需要传递当前线程“认为”的尾节点和当前节点，只有设置成功后，当前节点才正式与之前的尾节点建立关联。 
 
- ![image-20220404174605431](img-深入理解AbstractQueuedSynchronizer(AQS)/image-20220404174605431.png)
+ ![image-20220404174605431](./image/image-20220404174605431.png ':size=60%')
 
 同步队列遵循FIFO，首节点是获取同步状态成功的节点，首节点的线程在释放同步状态时，将会唤醒后继节点，而后继节点将会在获取同步状态成功时将自己设置为首节点，该过程如图所示：
 
- ![image-20220404174659118](img-深入理解AbstractQueuedSynchronizer(AQS)/image-20220404174659118.png)
+ ![image-20220404174659118](./image/image-20220404174659118.png ':size=60%')
 
 如图，设置首节点是通过获取同步状态成功的线程来完成的，由于只有一个线程能够成功获取到同步状态，因此设置头节点的方法并不需要使用CAS来保证，它只需要将首节点设置成为原首节点的后继节点并断开原首节点的next引用即可。
 
@@ -80,9 +80,9 @@
 2. **同步队列是一个双向队列，AQS通过持有头尾指针管理同步队列**；
 3. **节点的入队和出队实际上对应着锁的获取和释放两个操作：获取锁失败进行入队操作，获取锁成功进行出队操作。**
 
-# 3、独占锁
+## 3、独占锁
 
-## 独占锁的获取（acquire方法）
+### 独占锁的获取（acquire方法）
 
 我们继续通过看源码和debug的方式来看，还是以上面的demo为例，调用lock()方法是获取独占式锁，获取失败就将当前线程加入同步队列，成功则线程执行。而lock()方法实际上会调用AQS的`acquire()`方法，源码如下
 
@@ -194,7 +194,7 @@ final boolean acquireQueued(final Node node, int arg) {
 
 程序逻辑通过注释已经标出，整体来看这是一个这又是一个自旋的过程（for (;;)），代码首先获取当前节点的先驱节点，**如果先驱节点是头结点的并且成功获得同步状态的时候（if (p == head && tryAcquire(arg))），当前节点所指向的线程能够获取锁**。反之，获取锁失败进入等待状态。整体示意图为下图：
 
- ![image-20220404181453451](img-深入理解AbstractQueuedSynchronizer(AQS)/image-20220404181453451.png)
+ ![image-20220404181453451](./image/image-20220404181453451.png ':size=60%')
 
 > **获取锁成功，出队操作**
 
@@ -221,7 +221,7 @@ private void setHead(Node node) {
 
 将当前节点通过setHead()方法设置为队列的头结点，然后将之前的头结点的next域设置为null并且pre域也为null，即与队列断开，无任何引用方便GC时能够将内存进行回收。示意图如下：
 
- ![当前节点引用线程获取锁，当前节点设置为队列头结点.png](img-深入理解AbstractQueuedSynchronizer(AQS)/当前节点引用线程获取锁，当前节点设置为队列头结点.png)
+ ![当前节点引用线程获取锁，当前节点设置为队列头结点.png](./image/当前节点引用线程获取锁，当前节点设置为队列头结点.png ':size=60%')
 
 那么当获取锁失败的时候会调用shouldParkAfterFailedAcquire()方法和parkAndCheckInterrupt()方法，看看他们做了什么事情。shouldParkAfterFailedAcquire()方法源码为：
 
@@ -272,9 +272,9 @@ private final boolean parkAndCheckInterrupt() {
 
 经过上面的分析，独占式锁的获取过程也就是acquire()方法的执行流程如下图所示：
 
- ![acquire()方法的执行流程](img-深入理解AbstractQueuedSynchronizer(AQS)/acquire()方法的执行流程.png)
+ ![acquire()方法的执行流程](./image/acquire()方法的执行流程.png ':size=60%')
 
-## 独占锁的释放（release()方法）
+### 独占锁的释放（release()方法）
 
 独占锁的释放就相对来说比较容易理解了，废话不多说先来看下源码：
 
@@ -334,9 +334,9 @@ private void unparkSuccessor(Node node) {
 
 总体来说：**在获取同步状态时，AQS维护一个同步队列，获取同步状态失败的线程会加入到队列中进行自旋；移除队列（或停止自旋）的条件是前驱节点是头结点并且成功获得了同步状态。在释放同步状态时，同步器会调用unparkSuccessor()方法唤醒后继节点。**
 
-## 独占锁特性学习
+### 独占锁特性学习
 
-### 可中断式获取锁（acquireInterruptibly方法）
+#### 可中断式获取锁（acquireInterruptibly方法）
 
 我们知道lock相较于synchronized有一些更方便的特性，比如能响应中断以及超时等待等特性，现在我们依旧采用通过学习源码的方式来看看能够响应中断是怎么实现的。可响应中断式锁可调用方法lock.lockInterruptibly();而该方法其底层会调用AQS的acquireInterruptibly方法，源码为：
 
@@ -382,7 +382,7 @@ private void doAcquireInterruptibly(int arg)
 
 关键信息请看注释，现在看这段代码就很轻松了，与acquire方法逻辑几乎一致，唯一的区别是当**parkAndCheckInterrupt**返回true时即线程阻塞时该线程被中断，代码抛出被中断异常。
 
-### 超时等待式获取锁（tryAcquireNanos()方法）
+#### 超时等待式获取锁（tryAcquireNanos()方法）
 
 通过调用lock.tryLock(timeout,TimeUnit)方式达到超时等待获取锁的效果，该方法会在三种情况下才会返回：
 
@@ -444,13 +444,13 @@ private boolean doAcquireNanos(int arg, long nanosTimeout) throws InterruptedExc
 
 程序逻辑如图所示：
 
- ![超时等待式获取锁（doAcquireNanos()方法）.png](img-深入理解AbstractQueuedSynchronizer(AQS)/超时等待式获取锁（doAcquireNanos()方法）.png)
+ ![超时等待式获取锁（doAcquireNanos()方法）.png](./image/超时等待式获取锁（doAcquireNanos()方法）.png ':size=60%')
 
 程序逻辑同独占锁可响应中断式获取基本一致，唯一的不同在于获取锁失败后，对超时时间的处理上，在第1步会先计算出按照现在时间和超时时间计算出理论上的截止时间，比如当前时间是8h10min，超时时间是10min，那么根据`deadline = System.nanoTime() + nanosTimeout`计算出刚好达到超时时间时的系统时间就是8h 10min+10min = 8h 20min。然后根据`deadline - System.nanoTime()`就可以判断是否已经超时了，比如，当前系统时间是8h 30min很明显已经超过了理论上的系统时间8h 20min，`deadline - System.nanoTime()`计算出来就是一个负数，自然而然会在3.2步中的If判断之间返回false。如果还没有超时即3.2步中的if判断为true时就会继续执行3.3步通过**LockSupport.parkNanos**使得当前线程阻塞，同时在3.4步增加了对中断的检测，若检测出被中断直接抛出被中断异常。
 
-# 4、共享锁
+## 4、共享锁
 
-## 共享锁的获取（acquireShared()方法）
+### 共享锁的获取（acquireShared()方法）
 
 在聊完AQS对独占锁的实现后，我们继续一鼓作气的来看看共享锁是怎样实现的？共享锁的获取方法为acquireShared，源码为：
 
@@ -496,7 +496,7 @@ private void doAcquireShared(int arg) {
 
 现在来看这段代码会不会很容易了？逻辑几乎和独占式锁的获取一模一样，这里的自旋过程中能够退出的条件**是当前节点的前驱节点是头结点并且tryAcquireShared(arg)返回值大于等于0即能成功获得同步状态**。
 
-## 共享锁的释放（releaseShared()方法）
+### 共享锁的释放（releaseShared()方法）
 
 共享锁的释放在AQS中会调用方法releaseShared：
 
@@ -546,7 +546,7 @@ private void doReleaseShared() {
 
 这段方法跟独占式锁释放过程有点点不同，在共享式锁的释放过程中，对于能够支持多个线程同时访问的并发组件，必须保证多个线程能够安全的释放同步状态，这里采用的CAS保证，当CAS操作失败continue，在下一次循环中进行重试。
 
-## 可中断（acquireSharedInterruptibly()方法），超时等待（tryAcquireSharedNanos()方法）
+### 可中断（acquireSharedInterruptibly()方法），超时等待（tryAcquireSharedNanos()方法）
 
 关于可中断锁以及超时等待的特性其实现和独占式锁可中断获取锁以及超时等待的实现几乎一致，具体的就不再说了，如果理解了上面的内容对这部分的理解也是水到渠成的。
 
