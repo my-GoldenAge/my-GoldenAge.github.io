@@ -171,7 +171,7 @@ while (!isOnSyncQueue(node)) {
 
 很显然，当线程第一次调用condition.await()方法时，会进入到这个while()循环中，然后通过LockSupport.park(this)方法使得当前线程进入等待状态，那么要想退出这个await方法第一个前提条件自然而然的是要先退出这个while循环，出口就只剩下两个地方：**1. 逻辑走到break退出while循环；2. while循环中的逻辑判断为false**。再看代码出现第1种情况的条件是当前等待的线程被中断后代码会走到break退出，第二种情况是当前节点被移动到了同步队列中（即另外线程调用的condition的signal或者signalAll方法），while中逻辑判断为false后结束while循环。
 
-总结下，就是**当前线程被中断或者调用condition.signal/condition.signalAll方法当前节点移动到了同步队列后** ，这是当前线程退出await方法的前提条件。当退出while循环后就会调用`acquireQueued(node, savedState)`，这个方法在介绍AQS的底层实现时说过了，该方法的作用是在**自旋过程中线程不断尝试获取同步状态，直至成功（线程获取到lock）**。这样也说明了**退出await方法必须是已经获得了condition引用（关联）的lock，而不再需要去同步队列中排队**。await方法示意图如下图：
+总结下，就是**当前线程被中断或者调用condition.signal/condition.signalAll方法当前节点移动到了同步队列后** ，这是当前线程退出await方法的前提条件。当退出while循环后就会调用`acquireQueued(node, savedState)`，这个方法在介绍AQS的底层实现时说过了，该方法的作用是在**自旋过程中线程不断尝试获取同步状态，直至成功（线程获取到lock）**。await方法示意图如下图：
 
  ![image-20220408181652588](image/image-20220408181652588.png ":size=60%")
 
@@ -202,3 +202,169 @@ public final void awaitUninterruptibly() {
 
 这段方法与上面的await方法基本一致，只不过减少了对中断的处理，并省略了reportInterruptAfterWait方法抛被中断的异常。
 
+### signal/signalAll实现原理
+
+**调用condition的signal或者signalAll方法可以将等待队列中等待时间最长的节点移动到同步队列中**，使得该节点能够有机会获得lock。按照等待队列是先进先出（FIFO）的，所以等待队列的头节点必然会是等待时间最长的节点，也就是每次调用condition的signal方法是将头节点移动到同步队列中。我们来通过看源码的方式来看这样的猜想是不是对的，signal方法源码为：
+
+```java
+public final void signal() {
+    //1. 先检测当前线程是否已经获取lock
+    if (!isHeldExclusively())
+        throw new IllegalMonitorStateException();
+    //2. 获取等待队列中第一个节点，之后的操作都是针对这个节点
+	Node first = firstWaiter;
+    if (first != null)
+        doSignal(first);
+}
+```
+
+signal方法首先会检测当前线程是否已经获取lock，如果没有获取lock会直接抛出异常，如果获取的话再得到等待队列的头指针引用的节点，之后的操作的doSignal方法也是基于该节点。下面我们来看看doSignal方法做了些什么事情，doSignal方法源码为：
+
+```java
+private void doSignal(Node first) {
+    do {
+        if ( (firstWaiter = first.nextWaiter) == null)
+            lastWaiter = null;
+		//1. 将头结点从等待队列中移除
+        first.nextWaiter = null;
+		//2. while中transferForSignal方法对头结点做真正的处理
+    } while (!transferForSignal(first) &&
+             (first = firstWaiter) != null);
+}
+```
+
+具体逻辑请看注释，真正对头节点做处理的逻辑在**transferForSignal**方放，该方法源码为：
+
+```java
+final boolean transferForSignal(Node node) {
+    /*
+     * If cannot change waitStatus, the node has been cancelled.
+     */
+	//1. 更新状态为0
+    if (!compareAndSetWaitStatus(node, Node.CONDITION, 0))
+        return false;
+
+    /*
+     * Splice onto queue and try to set waitStatus of predecessor to
+     * indicate that thread is (probably) waiting. If cancelled or
+     * attempt to set waitStatus fails, wake up to resync (in which
+     * case the waitStatus can be transiently and harmlessly wrong).
+     */
+	//2.将该节点移入到同步队列中去
+    Node p = enq(node);
+    int ws = p.waitStatus;
+    if (ws > 0 || !compareAndSetWaitStatus(p, ws, Node.SIGNAL))
+        LockSupport.unpark(node.thread);
+    return true;
+}
+```
+
+关键逻辑请看注释，这段代码主要做了两件事情：
+
+1. 将头结点的状态更改为CONDITION；
+
+2. 调用enq方法，将该节点尾插入到同步队列中。
+
+**总结就是：**
+
+- 通过调用同步器的enq(Node node)方法，等待队列中的头节点线程安全地移动到同步队列。当节点移动到同步队列后，当前线程再使用LockSupport唤醒该节点的线程。 
+
+- 被唤醒后的线程，将从await()方法中的while循环中退出（isOnSyncQueue(Node node)方法返回true，节点已经在同步队列中），进而调用同步器的acquireQueued()方法加入到获取同步状态的竞争中。 
+- 成功获取同步状态（或者说锁）之后，被唤醒的线程将从先前调用的await()方法返回，此时该线程已经成功地获取了锁。
+
+signal执行示意图如下图：
+
+ ![image-20220409155823763](image/image-20220409155823763.png ":size=60%")
+
+> signalAll
+
+sigllAll与sigal方法的区别体现在doSignalAll方法上，前面我们已经知道**doSignal方法只会对等待队列的头节点进行操作**，而doSignalAll的源码为：
+
+```java
+private void doSignalAll(Node first) {
+    lastWaiter = firstWaiter = null;
+    do {
+        Node next = first.nextWaiter;
+        first.nextWaiter = null;
+        transferForSignal(first);
+        first = next;
+    } while (first != null);
+}
+```
+
+该方法只不过时间等待队列中的每一个节点都移入到同步队列中，即“通知”当前调用condition.await()方法的每一个线程。
+
+## 3、await与signal/signalAll的结合思考
+
+文章开篇提到等待/通知机制，通过使用condition提供的await和signal/signalAll方法就可以实现这种机制，而这种机制能够解决最经典的问题就是“生产者与消费者问题”，关于“生产者消费者问题”之后会用单独的一篇文章进行讲解，这也是面试的高频考点。await和signal和signalAll方法就像一个开关控制着线程A（等待方）和线程B（通知方）。它们之间的关系可以用下面一个图来表现得更加贴切：
+
+ ![condition下的等待通知机制.png](image/condition下的等待通知机制.png)
+
+如图，**线程awaitThread先通过lock.lock()方法获取锁成功后调用了condition.await方法进入等待队列，而另一个线程signalThread通过lock.lock()方法获取锁成功后调用了condition.signal或者signalAll方法，使得线程awaitThread能够有机会移入到同步队列中，当其他线程释放lock后使得线程awaitThread能够有机会获取lock，从而使得线程awaitThread能够从await方法中退出执行后续操作。如果awaitThread获取lock失败会直接进入到同步队列**。
+
+## 4、一个例子
+
+我们用一个很简单的例子说说condition的用法：
+
+```java
+public class AwaitSignal {
+    private static ReentrantLock lock = new ReentrantLock();
+    private static Condition condition = lock.newCondition();
+    private static volatile boolean flag = false;
+
+    public static void main(String[] args) {
+        Thread waiter = new Thread(new waiter());
+        waiter.start();
+        Thread signaler = new Thread(new signaler());
+        signaler.start();
+    }
+
+    static class waiter implements Runnable {
+
+        @Override
+        public void run() {
+            lock.lock();
+            try {
+                while (!flag) {
+                    System.out.println(Thread.currentThread().getName() + "当前条件不满足等待");
+                    try {
+                        condition.await();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                System.out.println(Thread.currentThread().getName() + "接收到通知条件满足");
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+    static class signaler implements Runnable {
+
+        @Override
+        public void run() {
+            lock.lock();
+            try {
+                flag = true;
+                condition.signalAll();
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+}
+```
+
+输出结果为：
+
+```
+Thread-0当前条件不满足等待
+Thread-0接收到通知，条件满足
+```
+
+开启了两个线程waiter和signaler，waiter线程开始执行的时候由于条件不满足，执行condition.await方法使该线程进入等待状态同时释放锁，signaler线程获取到锁之后更改条件，并通知所有的等待线程后释放锁。这时，waiter线程获取到锁，并由于signaler线程更改了条件此时相对于waiter来说条件满足，继续执行。
+
+> 参考文献
+
+《java并发编程的艺术》
