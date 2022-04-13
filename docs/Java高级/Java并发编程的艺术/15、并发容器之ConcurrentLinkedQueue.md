@@ -360,4 +360,8 @@ public static void main(String[] args) {
 
 > 参考资料
 
-《java并发编程的艺术》《Java高并发程序设计》[并发容器之ConcurrentLinkedQueue](https://github.com/CL0610/Java-concurrency/blob/master/15.%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E4%B9%8BConcurrentLinkedQueue/%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E4%B9%8BConcurrentLinkedQueue.md#4-offer%E6%96%B9%E6%B3%95%E4%B8%AD%E9%83%A8%E5%88%86%E7%BA%BF%E7%A8%8Boffer%E9%83%A8%E5%88%86%E7%BA%BF%E7%A8%8Bpoll)
+《java并发编程的艺术》
+
+《Java高并发程序设计》
+
+[并发容器之ConcurrentLinkedQueue](https://github.com/CL0610/Java-concurrency/blob/master/15.%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E4%B9%8BConcurrentLinkedQueue/%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E4%B9%8BConcurrentLinkedQueue.md#4-offer%E6%96%B9%E6%B3%95%E4%B8%AD%E9%83%A8%E5%88%86%E7%BA%BF%E7%A8%8Boffer%E9%83%A8%E5%88%86%E7%BA%BF%E7%A8%8Bpoll)

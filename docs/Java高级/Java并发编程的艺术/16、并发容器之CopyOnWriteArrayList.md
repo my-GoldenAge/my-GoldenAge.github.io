@@ -120,5 +120,7 @@ CopyOnWrite容器有很多优点，但是同时也存在两个问题，即内存
 
 > 参考资料
 
-《java并发编程的艺术》[COW讲解](https://www.cnblogs.com/dolphin0520/p/3938914.html)
+《java并发编程的艺术》
+
+[COW讲解](https://www.cnblogs.com/dolphin0520/p/3938914.html)
 
