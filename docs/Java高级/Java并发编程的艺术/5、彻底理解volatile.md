@@ -118,7 +118,7 @@ public class VolatileExample {
 
 上述happens-before关系的图形化表现形式如下：
 
- ![happens-before](./image/happens-before.jpg ':size=70%')
+ ![happens-before](./image/happens-before.jpg ':size=65%')
 
 在上图中，每一个箭头链接的两个节点，代表了一个happens-before关系。黑色箭头表示程序顺序规则；橙色箭头表示volatile规则；蓝色箭头表示组合这些规则后提供的happens-before保证。 
 
@@ -134,7 +134,7 @@ volatile写的内存语义如下：
 
 以上面示例程序VolatileExample为例，假设线程A首先执行writer()方法，随后线程B执行reader()方法，初始时两个线程的本地内存中的flag和a都是初始状态。图3-17是线程A执行volatile写后，共享变量的状态示意图。
 
- ![image-20220329150735822](./image/image-20220329150735822.png ':size=60%')
+ ![image-20220329150735822](./image/image-20220329150735822.png ':size=50%')
 
 如图，线程A在写flag变量后，本地内存A中被线程A更新过的两个共享变量的值被刷新到主内存中。此时，本地内存A和主内存中的共享变量的值是一致的。 
 
@@ -144,7 +144,7 @@ volatile读的内存语义如下：
 
 图3-18为线程B读同一个volatile变量后，共享变量的状态示意图。 
 
- ![image-20220329150922305](./image/image-20220329150922305.png ':size=60%')
+ ![image-20220329150922305](./image/image-20220329150922305.png ':size=50%')
 
 如图所示，在读flag变量后，本地内存B包含的值已经被置为无效。此时，线程B必须从主内存中读取共享变量。线程B的读取操作将导致本地内存B与主内存中的共享变量的值变成一致。 
 
