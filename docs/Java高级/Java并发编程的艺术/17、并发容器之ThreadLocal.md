@@ -451,6 +451,13 @@ public class ThreadLocalDemo {
 1. 如果当前线程不持有SimpleDateformat对象实例，那么就新建一个并把它设置到当前线程中，如果已经持有，就直接使用。另外，**从` if (sdf.get() == null){....}else{.....}`可以看出为每一个线程分配一个SimpleDateformat对象实例是从应用层面（业务代码逻辑）去保证的。**
 2. 在上面我们说过threadLocal有可能存在内存泄漏，在使用完之后，最好使用remove方法将这个变量移除，就像在使用数据库连接一样，及时关闭连接。
 
+## 5、ThreadLocal最佳实践
+
+上面说ThreadLocal有内存泄漏问题，对那么实践中我们应该怎么做？
+
+1. 每次使用完ThreadLocal，都调用它的remove()方法，清除数据。
+2. 在使用线程池的情况下，没有及时清理ThreadLocal，不仅是内存泄漏的问题，更严重的是可能导致业务逻辑出现问题。所以，使用ThreadLocal就跟加锁完要解锁一样，用完就清理。
+
 > 参考资料
 
 《java高并发程序设计》
