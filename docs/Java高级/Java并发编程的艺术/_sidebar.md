@@ -17,4 +17,5 @@
 * [并发容器之ThreadLocal](/Java高级/Java并发编程的艺术/17、并发容器之ThreadLocal "并发容器之ThreadLocal")
 * [并发容器之BlockingQueue](/Java高级/Java并发编程的艺术/18、并发容器之BlockingQueue "并发容器之BlockingQueue")
 * [线程池ThreadPoolExecutor实现原理](/Java高级/Java并发编程的艺术/19、线程池ThreadPoolExecutor实现原理 "线程池ThreadPoolExecutor实现原理")
+* [线程池之ScheduledThreadPoolExecutor](/Java高级/Java并发编程的艺术/20、线程池之ScheduledThreadPoolExecutor "线程池之ScheduledThreadPoolExecutor")
 
