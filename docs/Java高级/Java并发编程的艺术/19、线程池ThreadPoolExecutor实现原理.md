@@ -8,7 +8,45 @@
 - 第二：提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。
 - 第三：提高线程的可管理性。线程是稀缺资源，如果无限制地创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一分配、调优和监控。
 
-# 2、几个重要的字段
+# 2、Executor框架简介
+
+## 2.1 Executor框架的两级调度模型
+
+在HotSpot VM的线程模型中，Java线程（java.lang.Thread）被一对一映射为本地操作系统线程。Java线程启动时会创建一个本地操作系统线程；当该Java线程终止时，这个操作系统线程也会被回收。操作系统会调度所有线程并将它们分配给可用的CPU。 
+
+在上层，Java多线程程序通常把应用分解为若干个任务，然后使用用户级的调度器（Executor框架）将这些任务映射为固定数量的线程；在底层，操作系统内核将这些线程映射到硬件处理器上。这种两级调度模型的示意图如图所示：
+
+ ![image-20220417142051216](image/image-20220417142051216.png ":size=50%")
+
+## 2.2 Executor框架的结构
+
+Executor框架主要由3大部分组成如下。
+
+- **任务**：包括被执行任务需要实现的接口：Runnable接口或Callable接口。
+- **任务的执行**：包括任务执行机制的核心接口Executor，以及继承自Executor的ExecutorService接口。Executor框架有两个关键类实现了ExecutorService接口（ThreadPoolExecutor和ScheduledThreadPoolExecutor）。 
+- **异步计算的结果**：包括接口Future和实现Future接口的FutureTask类。 
+
+ ![image-20220417142411902](image/image-20220417142411902.png ":size=60%")
+
+下面是这些类和接口的简介：
+
+- Executor是一个接口，它是Executor框架的基础，它将任务的提交与任务的执行分离开来。 
+- ThreadPoolExecutor是线程池的核心实现类，用来执行被提交的任务。
+- ScheduledThreadPoolExecutor是一个实现类，可以在给定的延迟后运行命令，或者定期执行命令。ScheduledThreadPoolExecutor比Timer更灵活，功能更强大。
+- Future接口和实现Future接口的FutureTask类，代表异步计算的结果。
+- Runnable接口和Callable接口的实现类，都可以被ThreadPoolExecutor或ScheduledThreadPoolExecutor执行。 
+
+ ![image-20220417142645417](image/image-20220417142645417.png ":size=60%")
+
+主线程首先要创建实现Runnable或者Callable接口的任务对象。工具类Executors可以把一个Runnable对象封装为一个Callable对象（Executors.callable（Runnable task）或Executors.callable（Runnable task，Object resule））。
+
+然后可以把Runnable对象直接交给ExecutorService执行（ExecutorService.execute（Runnable command））；或者也可以把Runnable对象或Callable对象提交给ExecutorService执行（ExecutorService.submit（Runnable task）或`ExecutorService.submit(Callable<T> task)`）。 
+
+如果执行ExecutorService.submit（…），ExecutorService将返回一个实现Future接口的对象（到目前为止的JDK中，返回的是FutureTask对象）。由于FutureTask实现了Runnable，程序员也可以创建FutureTask，然后直接交给ExecutorService执行。 
+
+最后，主线程可以执行FutureTask.get()方法来等待任务执行完成。主线程也可以执行FutureTask.cancel（boolean mayInterruptIfRunning）来取消此任务的执行。
+
+# 3、几个重要的字段
 
 ```java
 private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));
@@ -43,7 +81,7 @@ private static final int TERMINATED =  3 << COUNT_BITS;
 
 ![threadpool-status.png](image/threadpool-status.png ":size=80%")
 
-# 3、ctl相关方法
+# 4、ctl相关方法
 
 这里还有几个对ctl进行计算的方法：
 
@@ -57,7 +95,7 @@ private static int ctlOf(int rs, int wc) { return rs | wc; }
 - **workerCountOf**：获取活动线程数；
 - **ctlOf**：获取运行状态和活动线程数的值。
 
-# 4、ThreadPoolExecutor构造方法
+# 5、ThreadPoolExecutor构造方法
 
 创建线程池主要是**ThreadPoolExecutor**类来完成，ThreadPoolExecutor的有许多重载的构造方法，通过参数最多的构造方法来理解创建线程池有哪些需要配置的参数。ThreadPoolExecutor的构造方法为：
 
@@ -85,7 +123,7 @@ ThreadPoolExecutor(int corePoolSize,
    3. **DiscardPolicy**：不处理直接丢弃掉任务；
    4. **DiscardOldestPolicy**：丢弃掉阻塞队列中存放时间最久的任务，执行当前任务。
 
-# 5、execute方法
+# 6、execute方法
 
 execute()方法用来提交任务，代码如下：
 
@@ -163,7 +201,7 @@ execute方法执行流程如下：
 
 线程池的设计思想就是使用了**核心线程池corePoolSize，阻塞队列workQueue和线程池maximumPoolSize**，这样的缓存策略来处理任务，实际上这样的设计思想在需要框架中都会使用。
 
-# 6、addWorker方法
+# 7、addWorker方法
 
 addWorker方法的主要工作是在线程池中创建一个新的线程并执行，firstTask参数 用于指定新增的线程执行的第一个任务，core参数为true表示在新增线程时会判断当前活动线程数是否少于corePoolSize，false表示新增线程前需要判断当前活动线程数是否少于maximumPoolSize，代码如下：
 
@@ -266,7 +304,7 @@ private boolean addWorker(Runnable firstTask, boolean core) {
 
 注意一下这里的`t.start()`这个语句，启动时会调用Worker类中的run方法，Worker本身实现了Runnable接口，所以一个Worker类型的对象也是一个线程。
 
-# 7、Worker类
+# 8、Worker类
 
 线程池中的每一个线程被封装成一个Worker对象，ThreadPool维护的其实就是一组Worker对象，看一下Worker的定义：
 
@@ -373,7 +411,7 @@ tryAcquire方法是根据state是否是0来判断的，所以，`setState(-1);`�
 
 正因为如此，在runWorker方法中会先调用Worker对象的unlock方法将state设置为0。
 
-# 8、runWorker方法
+# 9、runWorker方法
 
 在Worker类中的run方法调用了ThreadPoolExecutor的runWorker方法来执行任务，runWorker方法的代码如下：
 
@@ -451,7 +489,7 @@ STOP状态要中断线程池中的所有线程，而这里使用`Thread.interrup
 
 completedAbruptly变量来表示在执行任务过程中是否出现了异常，在processWorkerExit方法中会对该变量的值进行判断。
 
-# 9、getTask方法
+# 10、getTask方法
 
 getTask方法用来从阻塞队列中取任务，代码如下：
 
@@ -527,7 +565,7 @@ private Runnable getTask() {
 
 getTask方法返回null时，在runWorker方法中会跳出while循环，然后会执行processWorkerExit方法。
 
-# 10、processWorkerExit方法
+# 11、processWorkerExit方法
 
 ```java
 private void processWorkerExit(Worker w, boolean completedAbruptly) {
@@ -573,7 +611,7 @@ private void processWorkerExit(Worker w, boolean completedAbruptly) {
 
  ![threadpool-lifecycle.png](image/threadpool-lifecycle.png ":size=75%")
 
-# 11、tryTerminate方法
+# 12、tryTerminate方法
 
 tryTerminate方法根据线程池状态进行判断是否结束线程池，代码如下：
 
@@ -622,7 +660,7 @@ final void tryTerminate() {
 
 `interruptIdleWorkers(ONLY_ONE);`的作用是因为在getTask方法中执行`workQueue.take()`时，如果不执行中断会一直阻塞。在下面介绍的shutdown方法中，会中断所有空闲的工作线程，如果在执行shutdown时工作线程没有空闲，然后又去调用了getTask方法，这时如果workQueue中没有任务了，调用`workQueue.take()`时就会一直阻塞。所以每次在工作线程结束时调用tryTerminate方法来尝试中断一个空闲工作线程，避免在队列为空时取任务一直阻塞的情况。
 
-# 12、shutdown方法
+# 13、shutdown方法
 
 关闭线程池，可以通过`shutdown`和`shutdownNow`这两个方法。它们的原理都是遍历线程池中所有的线程，然后依次中断线程。`shutdown`和`shutdownNow`还是有不一样的地方：
 
@@ -668,7 +706,7 @@ public void shutdown() {
 
 下面就来分析一下interruptIdleWorkers方法。
 
-# 13、interruptIdleWorkers方法
+# 14、interruptIdleWorkers方法
 
 ```java
 private void interruptIdleWorkers() {
@@ -702,7 +740,7 @@ interruptIdleWorkers遍历workers中所有的工作线程，若线程没有被�
 
 为什么需要持有mainLock？因为workers是HashSet类型的，不能保证线程安全。
 
-# 14、shutdownNow方法
+# 15、shutdownNow方法
 
 ```java
 public List<Runnable> shutdownNow() {
@@ -732,7 +770,7 @@ shutdownNow方法与shutdown方法类似，不同的地方在于：
 
 shutdownNow方法执行完之后调用tryTerminate方法，该方法在上文已经分析过了，目的就是使线程池的状态设置为TERMINATED。
 
-# 15、线程池的监控
+# 16、线程池的监控
 
 通过线程池提供的参数进行监控。线程池里有一些属性在监控线程池的时候可以使用：
 
@@ -744,7 +782,7 @@ shutdownNow方法执行完之后调用tryTerminate方法，该方法在上文已
 
 通过这些方法，可以对线程池进行监控，在ThreadPoolExecutor类中提供了几个空方法，如beforeExecute方法，afterExecute方法和terminated方法，可以扩展这些方法在执行前或执行后增加一些新的操作，例如统计线程池的执行任务的时间等，可以继承自ThreadPoolExecutor来进行扩展。
 
-# 16、如何合理配置线程池参数？
+# 17、如何合理配置线程池参数？
 
 要想合理的配置线程池，就必须首先分析任务特性，可以从以下几个角度来进行分析：
 

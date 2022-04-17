@@ -105,7 +105,7 @@ public void run() {
 }
 ```
 
-从源码可以很明显的看出，在重写的run方法中会先`if (!periodic)`判断当前任务是否是周期性任务，如果不是的话就直接调用`run()方法`；否则的话执行`setNextRunTime()`方法重设下一次任务执行的时间，并通过`reExecutePeriodic(outerTask)`方法将下一次待执行的任务放置到`DelayedWorkQueue`中。
+从源码可以很明显的看出，在重写的run方法中会先`if (!periodic)`判断当前任务是否是周期性任务，如果不是的话就直接调用`run()`方法；否则的话执行`setNextRunTime()`方法重设下一次任务执行的时间，并通过`reExecutePeriodic(outerTask)`方法将下一次待执行的任务放置到`DelayedWorkQueue`中。
 
 因此，可以得出结论：**`ScheduledFutureTask`最主要的功能是根据当前任务是否具有周期性，对异步任务进行进一步封装。如果不是周期性任务（调用schedule方法）则直接通过`run()`执行，若是周期性任务，则需要在每一次执行完后，重设下一次执行的时间，然后将下一次任务继续放入到阻塞队列中。**
 
@@ -189,4 +189,22 @@ void ensurePrestart() {
 }
 ```
 
-可以看出该方法逻辑很简单，关键在于它所调用的`addWorker方法`，该方法主要功能：**新建`Worker类`，当执行任务时，就会调用被`Worker所重写的run方法`，进而会继续执行`runWorker`方法。在`runWorker`方法中会调用`getTask`方法从阻塞队列中不断的去获取任务进行执行，直到从阻塞队列中获取的任务为null的话，线程结束终止**。addWorker方法是ThreadPoolExecutor类中的方法，[对ThreadPoolExecutor的源码分析可以看这篇文章，很详细。](http://www.ideabuffer.cn/2017/04/04/深入理解Java线程池：ThreadPoolExecutor/#addWorker方法)
+可以看出该方法逻辑很简单，关键在于它所调用的`addWorker()`方法，该方法主要功能：**新建`Worker`类，当执行任务时，就会调用被Worker所重写的run方法，进而会继续执行`runWorker`方法。在`runWorker`方法中会调用`getTask`方法从阻塞队列中不断的去获取任务进行执行，直到从阻塞队列中获取的任务为null的话，线程结束终止**。addWorker方法是ThreadPoolExecutor类中的方法，对ThreadPoolExecutor的源码分析可以看上面的文章。
+
+# 5、总结
+
+ScheduledThreadPoolExecutor继承了ThreadPoolExecutor类，因此，整体上功能一致，线程池主要负责创建线程（Worker类），线程从阻塞队列中不断获取新的异步任务，直到阻塞队列中已经没有了异步任务为止。但是相较于ThreadPoolExecutor来说，ScheduledThreadPoolExecutor具有延时执行任务和可周期性执行任务的特性，ScheduledThreadPoolExecutor重新设计了任务类`ScheduleFutureTask`，ScheduleFutureTask重写了`run`方法使其具有可延时执行和可周期性执行任务的特性。另外，阻塞队列`DelayedWorkQueue`是可根据优先级排序的队列，采用了堆的底层数据结构，使得与当前时间相比，待执行时间越靠近的任务放置队头，以便线程能够获取到任务进行执行；
+
+线程池无论是ThreadPoolExecutor还是ScheduledThreadPoolExecutor，在设计时的三个关键要素是：任务，执行者以及任务结果。它们的设计思想也是完全将这三个关键要素进行了解耦。
+
+- **执行者**
+
+  任务的执行机制，完全交由`Worker`类，也就是进一步了封装了Thread。向线程池提交任务，无论为ThreadPoolExecutor的execute方法和submit方法，还是ScheduledThreadPoolExecutor的schedule方法，都是先将任务移入到阻塞队列中，然后通过addWork方法新建了Work类，并通过runWorker方法启动线程，并不断的从阻塞对列中获取异步任务执行交给Worker执行，直至阻塞队列中无法取到任务为止。
+
+- **任务**
+
+  在ThreadPoolExecutor和ScheduledThreadPoolExecutor中任务是指实现了Runnable接口和Callable接口的实现类。ThreadPoolExecutor中会将任务转换成`FutureTask`类，而在ScheduledThreadPoolExecutor中为了实现可延时执行任务和周期性执行任务的特性，任务会被转换成`ScheduledFutureTask`类，该类继承了FutureTask，并重写了run方法。
+
+- **任务结果**
+
+  在ThreadPoolExecutor中提交任务后，获取任务结果可以通过Future接口的类，在ThreadPoolExecutor中实际上为FutureTask类，而在ScheduledThreadPoolExecutor中则是`ScheduledFutureTask`类
