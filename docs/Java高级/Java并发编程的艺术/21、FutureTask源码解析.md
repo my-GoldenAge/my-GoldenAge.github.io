@@ -558,3 +558,7 @@ protected boolean runAndReset() {
 - get方法调用时，如果任务没有结束，要阻塞当前线程，法阻塞的线程会保存在一个Treiber Stack中；
 - get方法超时功能如果超时未获取成功，会抛出TimeoutException；
 - 注意在取消时的线程中断，在run方法中一定要保证结束时的状态是INTERRUPTED，否则在cancel方法中可能没有执行interrupt，造成中断的泄露。
+
+> 参考文献
+
+[FutureTask源码解析](http://www.ideabuffer.cn/2017/04/06/FutureTask%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/)

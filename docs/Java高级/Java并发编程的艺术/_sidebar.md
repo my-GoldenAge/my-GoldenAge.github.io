@@ -7,7 +7,7 @@
 * [三大性质总结：原子性、可见性以及有序性](/Java高级/Java并发编程的艺术/7、三大性质总结：原子性、可见性以及有序性 "三大性质总结：原子性、可见性以及有序性")
 * [初识Lock与AbstractQueuedSynchronizer(AQS)](/Java高级/Java并发编程的艺术/8、初识Lock与AbstractQueuedSynchronizer(AQS) "初识Lock与AbstractQueuedSynchronizer(AQS)")
 * [深入理解AbstractQueuedSynchronizer(AQS)](/Java高级/Java并发编程的艺术/9、深入理解AbstractQueuedSynchronizer(AQS) "深入理解AbstractQueuedSynchronizer(AQS)")
-* [彻底理解ReentrantLock](/Java高级/Java并发编程的艺术/10、彻底理解ReentrantLock "彻底理解ReentrantLock")
+* [ReentrantLock的重入性与公平性](/Java高级/Java并发编程的艺术/10、ReentrantLock的重入性与公平性 "ReentrantLock的重入性与公平性")
 * [深入理解读写锁ReentrantReadWriteLock](/Java高级/Java并发编程的艺术/11、深入理解读写锁ReentrantReadWriteLock "深入理解读写锁ReentrantReadWriteLock")
 * [详解Condition的await和signal等待通知机制](/Java高级/Java并发编程的艺术/12、详解Condition的await和signal等待通知机制 "详解Condition的await和signal等待通知机制")
 * [LockSupport工具](/Java高级/Java并发编程的艺术/13、LockSupport工具 "LockSupport工具")

@@ -208,3 +208,7 @@ ScheduledThreadPoolExecutor继承了ThreadPoolExecutor类，因此，整体上�
 - **任务结果**
 
   在ThreadPoolExecutor中提交任务后，获取任务结果可以通过Future接口的类，在ThreadPoolExecutor中实际上为FutureTask类，而在ScheduledThreadPoolExecutor中则是`ScheduledFutureTask`类
+
+> 参考文献
+
+《Java并发编程的艺术》
