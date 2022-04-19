@@ -9,7 +9,7 @@
 * [深入理解AbstractQueuedSynchronizer(AQS)](/Java高级/Java并发编程的艺术/9、深入理解AbstractQueuedSynchronizer(AQS) "深入理解AbstractQueuedSynchronizer(AQS)")
 * [ReentrantLock的重入性与公平性](/Java高级/Java并发编程的艺术/10、ReentrantLock的重入性与公平性 "ReentrantLock的重入性与公平性")
 * [深入理解读写锁ReentrantReadWriteLock](/Java高级/Java并发编程的艺术/11、深入理解读写锁ReentrantReadWriteLock "深入理解读写锁ReentrantReadWriteLock")
-* [详解Condition的await和signal等待通知机制](/Java高级/Java并发编程的艺术/12、详解Condition的await和signal等待通知机制 "详解Condition的await和signal等待通知机制")
+* [详解Condition的线程通信机制](/Java高级/Java并发编程的艺术/12、详解Condition的线程通信机制 "详解Condition的线程通信机制")
 * [LockSupport工具](/Java高级/Java并发编程的艺术/13、LockSupport工具 "LockSupport工具")
 * [并发容器之ConcurrentHashMap(JDK1.8)](/Java高级/Java并发编程的艺术/14、并发容器之ConcurrentHashMap(JDK1.8) "并发容器之ConcurrentHashMap(JDK1.8)")
 * [并发容器之ConcurrentLinkedQueue](/Java高级/Java并发编程的艺术/15、并发容器之ConcurrentLinkedQueue "并发容器之ConcurrentLinkedQueue")
