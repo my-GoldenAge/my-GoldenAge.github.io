@@ -1,5 +1,5 @@
 
-# Blink Dagger <small>x.x.x</small>
+# Blink Dagger <small>🗡️</small>
 
 > 剑到底来不来
 
