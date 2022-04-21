@@ -22,4 +22,5 @@
 * [Java中atomic包中的原子操作类总结](/Java高级/Java并发编程的艺术/22、Java中atomic包中的原子操作类总结 "Java中atomic包中的原子操作类总结")
 * [CountDownLatch与CyclicBarrier计数器](/Java高级/Java并发编程的艺术/23、CountDownLatch与CyclicBarrier计数器 "CountDownLatch与CyclicBarrier计数器")
 * [java并发工具类-Semaphore，Exchanger](/Java高级/Java并发编程的艺术/24、java并发工具类-Semaphore，Exchanger "java并发工具类-Semaphore，Exchanger")
+* [彻底弄懂生产者--消费者问题](/Java高级/Java并发编程的艺术/25、彻底弄懂生产者--消费者问题 "彻底弄懂生产者--消费者问题")
 
