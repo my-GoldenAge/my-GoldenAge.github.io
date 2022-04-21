@@ -21,4 +21,5 @@
 * [FutureTask源码解析](/Java高级/Java并发编程的艺术/21、FutureTask源码解析 "FutureTask源码解析")
 * [Java中atomic包中的原子操作类总结](/Java高级/Java并发编程的艺术/22、Java中atomic包中的原子操作类总结 "Java中atomic包中的原子操作类总结")
 * [CountDownLatch与CyclicBarrier计数器](/Java高级/Java并发编程的艺术/23、CountDownLatch与CyclicBarrier计数器 "CountDownLatch与CyclicBarrier计数器")
+* [java并发工具类-Semaphore，Exchanger](/Java高级/Java并发编程的艺术/24、java并发工具类-Semaphore，Exchanger "java并发工具类-Semaphore，Exchanger")
 
