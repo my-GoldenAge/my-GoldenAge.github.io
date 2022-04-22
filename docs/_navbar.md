@@ -9,9 +9,7 @@
   * [服务框架](/框架架构/服务框架/)
 * [实用工具](/实用工具/)
   * [代码管理](/实用工具/代码管理/)
-
 * [前端](/前端/)
-  * [HTML](https://developer.mozilla.org/zh-CN/docs/Learn/HTML)
-  * [CSS](https://developer.mozilla.org/zh-CN/docs/Learn/CSS)
-  * [JavaScript](https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript)
+  * [基础](/前端/基础/)
+  * [脚手架](/前端/脚手架/)
 
