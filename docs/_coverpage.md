@@ -8,4 +8,3 @@
 [GitHub](https://github.com/Sentinel-22/Sentinel-22.github.io)
 
 ![](_media/bg.jpg)
-

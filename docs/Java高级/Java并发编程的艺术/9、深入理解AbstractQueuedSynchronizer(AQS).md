@@ -585,7 +585,7 @@ pred.next = node;
 
 经过上面的分析，独占式锁的获取过程也就是`acquire()`方法的执行流程如下图所示：
 
- ![acquire()方法的执行流程](./image/acquire()方法的执行流程.png ':size=70%')
+ ![acquire()方法的执行流程](image/acquire()方法的执行流程.svg)
 
 # 6、AQS释放独占锁的实现
 
