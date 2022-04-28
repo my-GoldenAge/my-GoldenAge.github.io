@@ -4,6 +4,7 @@
 * [JavaEE](/JavaEE/)
     * [SpringMVC](/JavaEE/SpringMVC/)
     * [JavaSE](/JavaEE/JavaSE/)
+* [Java杂谈](/Java杂谈/)
 * [框架架构](/框架架构/)
   * [数据结构](/框架架构/数据结构/)
   * [设计模式](/框架架构/设计模式/)
