@@ -13,13 +13,17 @@
   <!-- alert -->
   <link rel="stylesheet" href="//cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" type='text/css' media='all' />
   
+  <!-- 置顶按钮样式 -->
+  <link rel="stylesheet" type="text/css" href="style/topStyle.css"/>
+
+  <!-- 整体样式 -->
   <link rel="stylesheet" type="text/css" href="style/myStyle.css"/>
 
 </head>
 <body>
   <div id="app"></div>
   <a class="to-top">&nbsp;⬆️<br>Top</a>
-  
+
   <script>
     window.$docsify = {
       name: '⚔️剑在必得⚔️',
@@ -39,6 +43,16 @@
         auth: ' <strong>-跳刀-</strong>',
         pre: '<hr/>',
         style: 'text-align: center;',
+      },
+      topMargin: 25, // default: 0 让你的内容页在滚动到指定的锚点时，距离页面顶部有一定空间。
+      auto2top: true,
+      mergeNavbar: true, // 小屏设备下合并导航栏到侧边栏
+      // 字数统计
+      count:{
+        countable:true,
+        fontsize:'0.9em',
+        color:'rgb(90,90,90)',
+        language:'chinese'
       },
     }
   </script>
@@ -95,6 +109,14 @@
 
   <!-- 文档页脚增强 -->
   <script src="//cdn.jsdelivr.net/npm/docsify-footer-enh/dist/docsify-footer.min.js"></script>
+
+  <!-- 数字统计 -->
+  <script src="//unpkg.com/docsify-count/dist/countable.js"></script>
+
+  <!-- 访问量统计 -->
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
 
 </body>
 </html>
