@@ -1,4 +1,4 @@
-> [!NOTE]具体分类见上面👆导航栏
+> [!NOTE]具体分类见上面👆导航栏（书手机端导航栏在左边）
 
 
  ![Winner](image/Winner.jpg ":size=100%")
