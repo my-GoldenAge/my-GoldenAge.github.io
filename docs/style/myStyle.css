@@ -10,6 +10,7 @@ body{
 .app-nav {
   /* 导航栏字体大小 */
   font-size: 20px;
+  color: #363636;
 }
 
 aside.sidebar ul li a {

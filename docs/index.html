@@ -28,7 +28,7 @@
 </head>
 <body>
   <div id="app"></div>
-  <a class="to-top">&nbsp;⬆️<br>Top</a>
+  <div class="to-top"></div>
 
   <script>
     window.$docsify = {
@@ -79,7 +79,8 @@
           minute: ""
         },
         isExpected: true
-      }
+      },
+
     }
   </script>
   <!-- Docsify v4 -->
@@ -124,8 +125,8 @@
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
 
   <!-- 置顶插件 -->
-  <script src="style/jquery-1.11.3.min.js"></script>
-  <script src="style/jquery.toTop.min.js"></script>
+  <script src="js/jquery-1.11.3.min.js"></script>
+  <script src="js/jquery.toTop.min.js"></script>
   <script>
     $('.to-top').toTop();
   </script>
@@ -180,6 +181,7 @@
     }
     siteTime();
   </script>
+
 
 </body>
 </html>
