@@ -1,126 +1,126 @@
-    /* 文本样式 */
-    body{
-        /* font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;    */
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        font-size: 17px;
-        color: #596172;
-      }
-      .app-nav {
-        /* 导航栏字体大小 */
-        font-size: 20px;
-      }
-      /*滚动条样式 start*/
-      /* 滚动条宽度 */
-      ::-webkit-scrollbar{width:10px;}
-      /* 滚动条颜色 */
-      ::-webkit-scrollbar-thumb{
-        background: #33a9dc;
-        background-image: linear-gradient(#6ecd56, #33a9dc, #cb6196, #c16290);
-        border-radius: 2em;
-      }
-      /* 加粗 */
-      .markdown-section strong {
-        color: rgb(79 79 79);
-        font-weight: bolder;
-      }
-      /* a 标签 */
-      .markdown-section a {
-        color: #42b983;
-        text-decoration: none;
-      }
-      /* 无序列表 */
-      .markdown-section ul {
-        margin-left: 8px;
-      }
-      .markdown-section ul li {
-        padding-top: 3px;
-      }
-      /* 有序列表 */
-      .markdown-section ol {
-        margin-left: 8px;
-      }
-      .markdown-section ol li {
-        padding-top: 3px;
-      }
-      /* 代码块 */
-      .markdown-section code {
-        background-color: #f1f1f1 !important;
-        color: #e83e8c;
-      }
-  
-      /* 代码块 */
-      .markdown-section pre:before {
-        content: '';
-        display: block;
-        background: url(https://cdn.jsdelivr.net/gh/zxiaosi/cdn/Docsify/images/point.png);
-        height: 30px;
-        width: 100%;
-        background-size: 40px;
-        background-repeat: no-repeat;
-        background-color: #282c34;
-        margin-bottom: -7px;
-        margin-top: 10px;
-        margin-left: -3px;
-        border-radius: 5px;
-        background-position: 10px 10px;
-      }
-      /* 代码块 */
-      .markdown-section pre>code {
-        color: #c0c3c1 !important;
-        font-family: 'Inconsolata', consolas,"PingFang SC", "Microsoft YaHei", monospace !important;
-        background-color: #282c34 !important;    
-        font-size: 15px !important;
-        white-space: pre !important;
-        line-height: 1.5 !important;
-        -moz-tab-size: 4 !important;
-        -o-tab-size: 4 !important;
-        tab-size: 4 !important;
-      }
-      /* 代码块 */
-      .markdown-section code, .markdown-section pre {
-        background-color: #282c34;
-      }
-      .token.directive.keyword{
-        color: #4faee2 !important;
-      }
-      .token.keyword{
-        color: #c678dd !important;
-      }
-  
-      .token.comment{
-        color: #737c8b !important;
-      }
-  
-      .token.tag{
-        color: #a589ad !important;
-      }
-      .token.attr-name{
-        color: #de916c !important;
-      }
-      .token.attr-value{
-        color: #4faee2 !important;
-      }
-  
-      .token.macro.property{
-        color: #4faee2 !important;
-      }
-  
-      .token.function{
-        color: #e6b456 !important;
-      }
-      .token.string{
-        color: #98b755 !important;
-      }
-      .token.punctuation{
-        color: #c0c3c1 !important;
-      }
-  
-      .token.number{
-        color:#c0c3c1  !important;
-      }
-  
-      img, pre {
-        border-radius: 8px;
-      }
+/* 文本样式 */
+body{
+  /* font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;    */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 17px;
+  color: #596172;
+}
+.app-nav {
+  /* 导航栏字体大小 */
+  font-size: 20px;
+}
+/*滚动条样式 start*/
+/* 滚动条宽度 */
+::-webkit-scrollbar{width:10px;}
+/* 滚动条颜色 */
+::-webkit-scrollbar-thumb{
+  background: #33a9dc;
+  background-image: linear-gradient(#6ecd56, #33a9dc, #cb6196, #c16290);
+  border-radius: 2em;
+}
+/* 加粗 */
+.markdown-section strong {
+  color: rgb(79 79 79);
+  font-weight: bolder;
+}
+/* a 标签 */
+.markdown-section a {
+  color: #42b983;
+  text-decoration: none;
+}
+/* 无序列表 */
+.markdown-section ul {
+  margin-left: 8px;
+}
+.markdown-section ul li {
+  padding-top: 3px;
+}
+/* 有序列表 */
+.markdown-section ol {
+  margin-left: 8px;
+}
+.markdown-section ol li {
+  padding-top: 3px;
+}
+/* 代码块 */
+.markdown-section code {
+  background-color: #f1f1f1 !important;
+  color: #e83e8c;
+}
+
+/* 代码块 */
+.markdown-section pre:before {
+  content: '';
+  display: block;
+  background: url(https://cdn.jsdelivr.net/gh/zxiaosi/cdn/Docsify/images/point.png);
+  height: 30px;
+  width: 100%;
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-color: #282c34;
+  margin-bottom: -7px;
+  margin-top: 10px;
+  margin-left: -3px;
+  border-radius: 5px;
+  background-position: 10px 10px;
+}
+/* 代码块 */
+.markdown-section pre>code {
+  color: #c0c3c1 !important;
+  font-family: 'Inconsolata', consolas,"PingFang SC", "Microsoft YaHei", monospace !important;
+  background-color: #282c34 !important;    
+  font-size: 15px !important;
+  white-space: pre !important;
+  line-height: 1.5 !important;
+  -moz-tab-size: 4 !important;
+  -o-tab-size: 4 !important;
+  tab-size: 4 !important;
+}
+/* 代码块 */
+.markdown-section code, .markdown-section pre {
+  background-color: #282c34;
+}
+.token.directive.keyword{
+  color: #4faee2 !important;
+}
+.token.keyword{
+  color: #c678dd !important;
+}
+
+.token.comment{
+  color: #737c8b !important;
+}
+
+.token.tag{
+  color: #a589ad !important;
+}
+.token.attr-name{
+  color: #de916c !important;
+}
+.token.attr-value{
+  color: #4faee2 !important;
+}
+
+.token.macro.property{
+  color: #4faee2 !important;
+}
+
+.token.function{
+  color: #e6b456 !important;
+}
+.token.string{
+  color: #98b755 !important;
+}
+.token.punctuation{
+  color: #c0c3c1 !important;
+}
+
+.token.number{
+  color:#c0c3c1  !important;
+}
+
+img, pre {
+  border-radius: 8px;
+}
