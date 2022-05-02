@@ -19,6 +19,12 @@
   <!-- 整体样式 -->
   <link rel="stylesheet" type="text/css" href="style/myStyle.css"/>
 
+  <!-- 毛泽东字体 -->
+  <link href='https://www.fontorg.com/f/c/f54-54538d1c8c1?u=6eeb4a789cd095916067eb55c16b964f003640769cd0a74aaccc99ed406b' rel='stylesheet' type='text/css'/>
+
+  <!-- nicolette -->
+  <link href='https://www.fontorg.com/f/c/f1677-c307a9035e6?u=6eeb4a78212b21556067eb5521522157068d2154212d214a21502150214e215b' rel='stylesheet' type='text/css'/>
+
 </head>
 <body>
   <div id="app"></div>
@@ -26,7 +32,7 @@
 
   <script>
     window.$docsify = {
-      name: '⚔️剑在必得⚔️',
+      name: '萧瑟 <embed src="/_media/首页.svg" type="image/svg+xml" />',
       repo: 'https://github.com/Sentinel-22',
       loadSidebar: true,
       subMaxLevel: 8,
@@ -54,6 +60,26 @@
         color:'rgb(90,90,90)',
         language:'chinese'
       },
+      // 自定义代码复制按钮
+      copyCode: {
+        buttonText : '复制',
+        errorText  : '复制失败',
+        successText: '复制成功'
+      },
+      count:{
+        countable: true,
+        position: 'top',
+        margin: '10px',
+        float: 'right',
+        fontsize:'0.9em',
+        color:'rgb(30 144 255)',
+        language:'chinese',
+        localization: {
+          words: "",
+          minute: ""
+        },
+        isExpected: true
+      }
     }
   </script>
   <!-- Docsify v4 -->

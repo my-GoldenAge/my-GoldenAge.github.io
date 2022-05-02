@@ -11,6 +11,13 @@ body{
   /* 导航栏字体大小 */
   font-size: 20px;
 }
+
+aside.sidebar ul li a {
+  line-height: 30px;
+  font-size: 16px;    /* 侧边栏字体大小 */
+  padding: 3px 0 3px 5px;
+}
+
 /*滚动条样式 start*/
 /* 滚动条宽度 */
 ::-webkit-scrollbar{width:10px;}
@@ -123,4 +130,10 @@ body{
 
 img, pre {
   border-radius: 8px;
+}
+
+.markdown-section .docsify-copy-code-button{
+  background-color: rgb(100 149 237);
+  border-radius: 0px 5px 0px 5px;
+  
 }
