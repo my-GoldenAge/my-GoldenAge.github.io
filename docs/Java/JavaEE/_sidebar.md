@@ -2,4 +2,5 @@
 - [Java常用类](/Java/JavaEE/Java常用类 "Java常用类")
 - [反射与动态代理](/Java/JavaEE/反射与动态代理 "反射与动态代理")
 - [SpringMVC配置说明](/Java/JavaEE/SpringMVC配置说明 "SpringMVC配置说明")
+- [Thymeleaf模板引擎](/Java/JavaEE/Thymeleaf模板引擎 "Thymeleaf模板引擎")
 

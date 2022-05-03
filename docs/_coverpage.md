@@ -8,5 +8,3 @@
 
 ![](_media/bg.jpg)
 
-
-

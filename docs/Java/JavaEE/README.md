@@ -7,4 +7,5 @@
 
 * SMM框架
   * [SpringMVC配置说明](/Java/JavaEE/SpringMVC配置说明)
+  * [Thymeleaf模板引擎](/Java/JavaEE/Thymeleaf模板引擎)
 
