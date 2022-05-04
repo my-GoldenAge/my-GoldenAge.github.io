@@ -14,7 +14,7 @@ for语句中的i++的作用是让i的值在每次循环后自增1，这样就可
 
 将这里的循环变量i的作用抽象化、通用化后形成的模式，在设计模式中称为**Iterator模式**。
 
-Iterator模式用于在数据集合中按照顺序遍历集合。英语单词Iterate有反复做某件事情的意思，汉语称为**“迭代器”**。
+Iterator模式用于在数据集合中按照顺序遍历集合。英语单词Iterate有反复做某件事情的意思，汉语称为**”迭代器”**。
 
 # 示例程序
 
@@ -37,7 +37,7 @@ Aggregate接口（代码如下）是所要遍历的集合的接口。实现了�
 **Aggregate接口(Aggregate.java)**
 
 ```java
-public interface Aggregate{
+public interface Aggregate {
     public abstract Iterator iterator();
 }
 ```
@@ -53,7 +53,7 @@ public interface Aggregate{
 **Iterator接口(Iterator.java)**
 
 ```java
-public interface Iterator{
+public interface Iterator {
     public abstract boolean hasNext();
     public abstract object next();
 }
@@ -73,7 +73,7 @@ Book类是表示书的类。但是这个类的作用有限，它可以做的事�
 **Book类(Book.java)**
 
 ```java
-public class Book{
+public class Book {
     private String name;
     public Book(String name){
         this.name name;
@@ -91,7 +91,7 @@ BookShelf类是表示书架的类。由于需要将该类作为集合进行处�
 **BookShelf类(BookShelf.java)**
 
 ```java
-public class Bookshelf implements Aggregate{
+public class Bookshelf implements Aggregate {
     private Book[]books;
     private int last 0;
     public BookShelf(int maxsize){
@@ -122,7 +122,7 @@ public class Bookshelf implements Aggregate{
 **BookShelflterator(BookShelflterator.java)**
 
 ```java
-public class BookShelfIterator implements Iterator{
+public class BookShelfIterator implements Iterator {
     private BookShelf bookShelf;
     private int index;
     public BookShelfIterator(BookShelf bookShelf){
@@ -159,7 +159,7 @@ next方法会返回迭代器当前所指向的书(Book的实例)，并让迭代�
 ## Main类
 
 ```java
-public class Main{
+public class Main {
     public static void main(String[]args){
         BookShelf bookShelf new BookShelf(4);
         bookShelf.appendBook(new Book ("Around the World in 80 Days"));
@@ -173,6 +173,12 @@ public class Main{
         }
     }
 }
+
+运行结果：
+Around the World in 80 Days
+Bible
+Cinderella
+Daddy-Long-Legs    
 ```
 
 通过`bookShelf.iterator()`得到的it是用于遍历书架的Iterator实例。while部分的条件当然就是`it.hasNext()`了。只要书架上有书，while循环就不会停止。然后，程序会通过`it.next()`一本一本地遍历书架中的书。
