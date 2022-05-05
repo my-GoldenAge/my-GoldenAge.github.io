@@ -11,6 +11,7 @@
 **行为型模式**：类和对象如何交互，及划分责任和算法
 
 - [Iterator 模式（迭代器模式）](/框架架构/设计模式/Iterator模式 "Iterator模式")
+- [Template Method 模式（模板方法模式）](/框架架构/设计模式/TemplateMethod模式 "TemplateMethod模式")
 
 > [!tip]**前言：**
 
