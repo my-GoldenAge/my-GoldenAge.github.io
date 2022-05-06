@@ -3,6 +3,7 @@
 **创建型模式**：对象实例化的模式，创建型模式用于解耦对象的实例化过程
 
 - [Singleton 模式（单例模式）](/框架架构/设计模式/Singleton模式 "Singleton模式")
+- [Factory Method 模式（工厂方法模式）](/框架架构/设计模式/FactoryMethod模式 "Factory Method 模式")
 
 **结构型模式**：把类或对象结合在一起形成一个更大的结构
 

@@ -2,3 +2,4 @@
 * [Iterator 模式（迭代器模式）](/框架架构/设计模式/Iterator模式 "Iterator模式")
 * [Adapter 模式（适配器模式）](/框架架构/设计模式/Adapter模式 "Adapter模式")
 * [Template Method 模式（模板方法模式）](/框架架构/设计模式/TemplateMethod模式 "TemplateMethod模式")
+* [Factory Method 模式（工厂方法模式）](/框架架构/设计模式/FactoryMethod模式 "Factory Method 模式")
