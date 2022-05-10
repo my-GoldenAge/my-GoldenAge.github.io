@@ -4,7 +4,6 @@
 * [<embed src="/_media/java.svg" type="image/svg+xml" />Java](/Java/)
     * [JavaEE](/Java/JavaEE/)
     * [Java杂谈](/Java/Java杂谈/)
-
 * [<embed src="/_media/架构.svg" type="image/svg+xml" />框架架构](/框架架构/)
   * [数据结构](/框架架构/数据结构/)
   * [设计模式](/框架架构/设计模式/)
@@ -16,4 +15,3 @@
   * [CSS](/前端/CSS/)
   * [JavaScript](/前端/JavaScript/)
   * [脚手架](/前端/脚手架/)
-
