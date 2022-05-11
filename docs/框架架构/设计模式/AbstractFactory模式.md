@@ -117,3 +117,207 @@ writer.write (makeHTML()); //(2)
 
 为了强调调用的是Page类自己的makeHTML方法，我们显式地加上了this。这里调用的makeHTML方法是一个抽象方法。output方法是一个简单的Template Method模式的方法。
 
+```java
+package factory;
+
+import java.io.*
+    import java.util.ArrayList;
+
+public abstract class Page {
+    protected String title;
+    protected String author;
+    protected ArrayList content new ArrayList ();
+    public Page(String title,String author){
+        this.title title;
+        this.authorauthor;
+    }
+    public void add(Itemitem){
+        content.add(item);
+    }
+    public void output(){
+        try{
+            String filename title ".html";
+            Writer writer new FileWriter(filename);
+            writer.write(this.makeHTML());
+            writer.close();
+            System.out,println(filename+"编写完成。");
+        }catch (IOException e){
+            e.printstackTrace();
+        }
+    }
+    public abstract string makeHTML();
+}
+```
+
+## 抽象的工厂：Factory类
+
+前面我们学习了抽象零件和抽象产品的代码，现在终于可以来看看抽象工厂了。getFactory方法可以根据指定的类名生成具体工厂的实例。例如，可以像下面这样，将参数classname指定为具体工厂的类名所对应的字符串。
+
+getFactory方法通过调用Class类的forName方法来动态地读取类信息，接着使用newInstance方法生成该类的实例，并将其作为返回值返回给调用者。
+
+class类属于java.lang包，是用来表示类的类。class类包含于Java的标准类库中。forName是java.lang.Class的类方法（静态方法），newInstance则是java.lang.class的实例方法。
+
+请注意，虽然getFactory方法生成的是具体工厂的实例，但是返回值的类型是抽象工厂类型。
+
+createLink、createTray、createPage等方法是用于在抽象工厂中生成零件和产品的方法。这些方法都是抽象方法，具体的实现被交给了Factory类的子类。不过，这里确定了方法的名字和签名。
+
+```java
+package factory;
+
+public abstract class Factory {
+    public static Factory getFactory(String classname){
+        Factory factory = null;
+        try{
+            factory =(Factory)class.forName (classname).newInstance();
+        }catch (ClassNotFoundException e){
+            System.err.println("没有找到"+classname+"类。");
+        }catch (Exception e){
+            e.printstackTrace();
+        }
+        return factory;
+    }
+    public abstract Link createLink(String caption,String url);
+    public abstract Tray createTray(String caption);
+    public abstract Page createpage(String title,String author);
+}
+```
+
+## 使用工厂将零件组装称为产品：Main类
+
+在理解了抽象的零件、产品、工厂的代码后，我们来看看Main类的代码。Main类使用抽象工厂生产零件并将零件组装成产品。Main类中只引人了factory包，从这一点可以看出，该类并没有使用任何具体零件、产品和工厂。
+
+具体工厂的类名是通过命令行来指定的。例如，如果要使用listfactory包中的ListFactory类，可以在命令行中输入以下命令。
+
+> java Main listfactory.ListFactory
+
+Main类会使用getFactory方法生成该参数(arg[0])对应的工厂，并将其保存在factory变量中。
+
+之后，Main类会使用factory生成Link和Tray，然后将Link和Tray都放入Tray中，最后生成Page并将生成结果输出至文件。
+
+```java
+import factory.*;
+
+public class Main {
+    public static void main(String[]args){
+        if (args.length !1){
+            System.out.println("Usage:java Main class.name.of.ConcreteFactory");
+            System.out.println("Example 1:java Main listfactory.ListFactory");
+            System.out.println("Example 2:java Main tablefactory.TableFactory");
+            System.exit(0);
+        }
+        Factory factory Factory.getFactory(args[0]);
+        Link people=factory.createLink("人民日报"，"http://www,people.com.cn/");
+        Link gmw=factory.createLink("光明日报"，"http://www.gmw.cn/");
+        Link us yahoo factory.createLink ("Yahoo!""http://www.yahoo.com/");
+        Link jp_yahoo factory.createLink ("Yahoo!Japan","http://www.yahoo.co.jp/");
+        Link excite factory.createLink("Excite","http://www.excite.com/");
+        Link google factory.createLink ("Google","http://www.google.com/");
+        Tray traynews=factory.createTray("日报");
+        traynews.add(people);
+        traynews.add(gmw);
+        Tray trayyahoo factory.createTray("Yahoo!");
+        trayyahoo.add(us yahoo);
+        trayyahoo.add(jp_yahoo);
+
+        Tray traysearch=factory.createTray("检索引擎");
+        traysearch.add(trayyahoo);
+        traysearch.add(excite);
+        traysearch.add(google);
+        Page page=factory.createPage("LinkPage","杨文轩");
+        page.add(traynews);
+        page.add(traysearch);
+        page.output();
+    }
+}
+```
+
+## 具体的工厂：ListFactory类
+
+之前我们学习了抽象类的代码，现在让我们将视角切换到具体类。首先，我们来看看listfactory包中的工厂—ListFactory类。
+
+ListFactory类实现了Factory类的createLink方法、createTray方法以及createPage方法。当然，各个方法内部只是分别简单地new出了ListLink类的实例、ListTray类的实例以及ListPage类的实例（根据实际需求，这里可能需要用Prototype模式来进行clone)。
+
+```java
+package listfactory;
+
+import factory.*;
+
+public class ListFactory extends Factory{
+    public Link createLink(String caption,String url){
+        return new ListLink(caption,url);
+    }
+
+    public Tray createTray(String caption){
+        return new ListTray(caption);
+    }
+    public Page createpage(String title,String author){
+        return new ListPage(title,author);
+    }
+}
+```
+
+## 具体的零件：ListLink类
+
+ListLink类是Link类的子类。在工ist工ink类中必须实现的方法是哪个呢？对了，就是在父类中声明的makeHTML抽象方法。ListLink类使用`<li>`标签和`<a>`标签来制作HTML片段。这段HTML片段也可以与工istTary和ListPag的结果合并起来，就如同将螺栓和螺母拧在一起一样。
+
+```java
+package listfactory;
+
+import factory.*;
+
+public class ListLink extends Link {
+    public ListLink(String caption,String url){
+        super(caption,url);
+    }
+    public String makeHTML(){
+        return "<li><a href=\"" + url +"\">" + caption + "</a></li>\n";
+    }
+}
+```
+
+## 具体的零件：ListTray类
+
+ListTray类是Tray类的子类。这里我们重点看一下makeHTML方法是如何实现的。tray字段中保存了所有需要以HTML格式输出的Item,而负责将它们以HTML格式输出的就是makeHTML方法了。那么该方法究竟是如何实现的呢？
+
+makeHTML方法首先使用`<li>`标签输出标题(caption)，接着使用`<u1>`和`<li>`标签输出每个Item。输出的结果先暂时保存在StringBuffer中，最后再通过toString方法将输出结果转换为String类型并返回给调用者。
+
+那么，每个Item又是如何输出为HTML格式的呢？当然就是调用每个Item的makeHTM工方法了。请注意，这里并不关心变量item中保存的实例究竟是ListLink的实例还是ListTray的实例，只是简单地调用了item.makeHTML()语句而已。这里**不能使用switch语句或if语句去判断变量item中保存的实例的类型**，否则就是非面向对象编程了。变量item是Item类型的，而Item类又声明了makeHTML方法，而且ListLink类和ListTray类都是Item类的子类，因此可以放心地调用。之后item会帮我们进行处理。至于item究竟进行了什么样的处理只有item的实例（对象）才知道。这就是面向对象的优点。
+
+这里使用的java.util.Iterator类与我们在Iterator模式一章中所学习的迭代器在功能上是相同的，不过它是Java类库中自带的。为了从java.util.ArrayList类中得到java.util.Iterator，我们调用iterator方法。
+
+```java
+package listfactory;
+
+import factory.*;
+import java.util.Iterator;
+
+public class ListTray extends Tray {
+    public ListTray(String caption){
+        super(caption);
+    }
+    public String makeHTML (){
+        StringBuffer buffer new StringBuffer();
+        buffer.append ("<li>\n");
+        buffer.append (caption +"\n");
+        buffer.append ("<ul>\n");
+        Iterator it tray.iterator();
+        while (it.hasNext ()){
+            Item item (Item)it.next();
+            buffer.append (item.makeHTML());
+        }
+        buffer.append("</ul>\n");
+        buffer.append ("</1i>\n");
+        return buffer.tostring ()
+    }
+}
+```
+
+## 具体的产品：ListPage类
+
+ListPage类是Page类的子类。关于makeHTML方法，大家应该已经明白了吧。ListPage将字段中保存的内容输出为HTML格式。作者名(author)用`<address>`标签输出。
+
+大家知道为什么while语句被夹在`<u1>...</u1>`之间吗？这是因为在while语句中append的item.makeHTML()的输出结果需要被嵌入在`<ul>...</ul>`之间的缘故。请大家再回顾一下ListLink和ListTray的makeHTML()方法，在它们的最外侧都会有`<li>`标签，就像
+是“螺栓”和“螺母”的接头一样。
+
+while语句的上一条语句中的content继承自Page类的字段。
+
