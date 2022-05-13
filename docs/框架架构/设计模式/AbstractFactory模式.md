@@ -16,308 +16,301 @@ Abstract的意思是“抽象的”，Factory的意思是“工厂”。将它�
 
 # 示例程序
 
-示例程序的功能是将带有层次关系的链接的集合制作成HTML文件。最后制作完成的HTML文件如图所示。
+**应用实例：**工作了，为了参加一些聚会，肯定有两套或多套衣服吧，比如说有商务装（成套，一系列具体产品）、时尚装（成套，一系列具体产品），甚至对于一个家庭来说，可能有商务女装、商务男装、时尚女装、时尚男装，这些也都是成套的，即一系列具体产品。假设一种情况（现实中是不存在的，要不然，没法进入共产主义了，但有利于说明抽象工厂模式），在您的家中，某一个衣柜（具体工厂）只能存放某一种这样的衣服（成套，一系列具体产品），每次拿这种成套的衣服时也自然要从这个衣柜中取出了。用 OOP 的思想去理解，所有的衣柜（具体工厂）都是衣柜类的（抽象工厂）某一个，而每一件成套的衣服又包括具体的上衣（某一具体产品），裤子（某一具体产品），这些具体的上衣其实也都是上衣（抽象产品），具体的裤子也都是裤子（另一个抽象产品）。
 
-![image-20220510214114752](image/image-20220510214114752.png ":size=70%")
+现在我们将创建 *Shape* 和 *Color* 接口和实现这些接口的实体类。下一步是创建抽象工厂类 *AbstractFactory*。接着定义工厂类 *ShapeFactory* 和 *ColorFactory*，这两个工厂类都是扩展了 *AbstractFactory*。然后创建一个工厂创造器/生成器类 *FactoryProducer*。
 
-在示例程序中，类被划分为以下3个包。
+*AbstractFactoryPatternDemo* 类使用 *FactoryProducer* 来获取 *AbstractFactory* 对象。它将向 *AbstractFactory* 传递形状信息 *Shape*（*CIRCLE / RECTANGLE / SQUARE*），以便获取它所需对象的类型。同时它还向 *AbstractFactory* 传递颜色信息 *Color*（*RED / GREEN / BLUE*），以便获取它所需对象的类型。
 
-- **factory包：包含抽象工厂、零件、产品的包**
-- **无名包：包含Main类的包**
-- **listfactory包：包含具体工厂、零件、产品的包（这里使用`<u>`标签输出为L文件）**
+> 示例程序类图
 
-> 类的一览表
+ ![抽象工厂模式的 UML 图](image/3E13CDD1-2CD2-4C66-BD33-DECBF172AE03.jpg ":size=90%")
 
-![image-20220510214410168](image/image-20220510214410168.png ":size=85%")
+## 形状接口
 
-> 实例程序类图
-
-![image-20220510214534243](image/image-20220510214534243.png ":size=75%")
-
-> 文件夹中源文件的结构
-
- ![image-20220510214700102](image/image-20220510214700102.png ":size=30%")
-
-## 抽象的零件：ltem类
-
-Item类是工ink类和Tray类的父类(Item有“项目”的意思)。这样，Link类和Tray类就具有可替换性了。
-
-caption字段表示项目的“标题”。
-
-makeHTML方法是抽象方法，需要子类来实现这个方法。该方法会返回HTML文件的内容（需要子类去实现)。
+为形状创建一个接口。
 
 ```java
-package factory;
-
-public abstract class Item {
-    protected String caption;
-    public Item(String caption){
-        this.captioncaption;
-    }
-    public abstract string makeHTML();
+public interface Shape {
+   void draw();
 }
 ```
 
-## 抽象的零件：Link类
+## 形状接口的具体类
 
-Link类是抽象地表示HTML的超链接的类。
+创建实现形状接口的实体类。
 
-url字段中保存的是超链接所指向的地址。乍一看，在工ink类中好像一个抽象方法都没有，但实际上并非如此。由于Link类中没有实现父类(Item类)的抽象方法(makeHTML)，因此它也是抽象类。
+**Rectangle.java**
 
 ```java
-package factory;
-
-public abstract class Link extends Item {
-    protected String url;
-    public Link(String caption,String url){
-        super(caption);
-        this.url url;
-    }
+public class Rectangle implements Shape {
+    
+   @Override
+   public void draw() {
+      System.out.println("Inside Rectangle::draw() method.");
+   }
 }
 ```
 
-## 抽象的零件：Tray类
-
-Tray类表示的是一个含有多个工ink类和Tray类的容器(Tray有托盘的意思。请想象成在托盘上放置着一个一个项目)。
-
-Tray类使用add方法将Link类和Tray类集合在一起。为了表示集合的对象是“Link类和Tray类”，我们设置add方法的参数为Link类和Tray类的父类Item类。
-
-虽然Tray类也继承了Item类的抽象方法makeHTML,但它并没有实现该方法。因此，Tray类也是抽象类。
+**Square.java**
 
 ```java
-package factory;
-
-import java.util.ArrayList;
-
-public abstract class Tray extends Item {
-    protected ArrayList tray new ArrayList();
-    public Tray(String caption){
-        super(caption);
-    }
-    public void add(Itemitem){
-        tray.add(item);
-    }
+public class Square implements Shape {
+ 
+   @Override
+   public void draw() {
+      System.out.println("Inside Square::draw() method.");
+   }
 }
 ```
 
-## 抽象的产品：Page类
-
-Page类是抽象地表示HTML页面的类。如果将工ink和Tray比喻成抽象的“零件”，那么Page类就是抽象的“产品”。title和author分别是表示页面标题和页面作者的字段。作者名字通过参数传递给Page类的构造函数。
-
-可以使用add方法向页面中增加Item(即Link或Tray。增加的Item将会在页面中显示出来。
-
-output方法首先根据页面标题确定文件名，接着调用makeHTML方法将自身保存的HTML内容写人到文件中。
-
-其中，我们可以去掉如下语句(1)中的this，将其写为如下语句(2)那样：
+**Circle.java**
 
 ```java
-writer.write (this.makeHTML()) //(1)
-writer.write (makeHTML()); //(2)
-```
-
-为了强调调用的是Page类自己的makeHTML方法，我们显式地加上了this。这里调用的makeHTML方法是一个抽象方法。output方法是一个简单的Template Method模式的方法。
-
-```java
-package factory;
-
-import java.io.*
-    import java.util.ArrayList;
-
-public abstract class Page {
-    protected String title;
-    protected String author;
-    protected ArrayList content new ArrayList ();
-    public Page(String title,String author){
-        this.title title;
-        this.authorauthor;
-    }
-    public void add(Itemitem){
-        content.add(item);
-    }
-    public void output(){
-        try{
-            String filename title ".html";
-            Writer writer new FileWriter(filename);
-            writer.write(this.makeHTML());
-            writer.close();
-            System.out,println(filename+"编写完成。");
-        }catch (IOException e){
-            e.printstackTrace();
-        }
-    }
-    public abstract string makeHTML();
+public class Circle implements Shape {
+ 
+   @Override
+   public void draw() {
+      System.out.println("Inside Circle::draw() method.");
+   }
 }
 ```
 
-## 抽象的工厂：Factory类
+## 颜色接口
 
-前面我们学习了抽象零件和抽象产品的代码，现在终于可以来看看抽象工厂了。getFactory方法可以根据指定的类名生成具体工厂的实例。例如，可以像下面这样，将参数classname指定为具体工厂的类名所对应的字符串。
-
-getFactory方法通过调用Class类的forName方法来动态地读取类信息，接着使用newInstance方法生成该类的实例，并将其作为返回值返回给调用者。
-
-class类属于java.lang包，是用来表示类的类。class类包含于Java的标准类库中。forName是java.lang.Class的类方法（静态方法），newInstance则是java.lang.class的实例方法。
-
-请注意，虽然getFactory方法生成的是具体工厂的实例，但是返回值的类型是抽象工厂类型。
-
-createLink、createTray、createPage等方法是用于在抽象工厂中生成零件和产品的方法。这些方法都是抽象方法，具体的实现被交给了Factory类的子类。不过，这里确定了方法的名字和签名。
+为颜色创建接口
 
 ```java
-package factory;
-
-public abstract class Factory {
-    public static Factory getFactory(String classname){
-        Factory factory = null;
-        try{
-            factory =(Factory)class.forName (classname).newInstance();
-        }catch (ClassNotFoundException e){
-            System.err.println("没有找到"+classname+"类。");
-        }catch (Exception e){
-            e.printstackTrace();
-        }
-        return factory;
-    }
-    public abstract Link createLink(String caption,String url);
-    public abstract Tray createTray(String caption);
-    public abstract Page createpage(String title,String author);
+public interface Color {
+   void fill();
 }
 ```
 
-## 使用工厂将零件组装称为产品：Main类
+## 颜色接口的具体类
 
-在理解了抽象的零件、产品、工厂的代码后，我们来看看Main类的代码。Main类使用抽象工厂生产零件并将零件组装成产品。Main类中只引人了factory包，从这一点可以看出，该类并没有使用任何具体零件、产品和工厂。
+创建实现颜色接口的实体类。
 
-具体工厂的类名是通过命令行来指定的。例如，如果要使用listfactory包中的ListFactory类，可以在命令行中输入以下命令。
-
-> java Main listfactory.ListFactory
-
-Main类会使用getFactory方法生成该参数(arg[0])对应的工厂，并将其保存在factory变量中。
-
-之后，Main类会使用factory生成Link和Tray，然后将Link和Tray都放入Tray中，最后生成Page并将生成结果输出至文件。
+**Red.java**
 
 ```java
-import factory.*;
+public class Red implements Color {
+ 
+   @Override
+   public void fill() {
+      System.out.println("Inside Red::fill() method.");
+   }
+}
+```
 
+**Green.java**
+
+```java
+public class Green implements Color {
+ 
+   @Override
+   public void fill() {
+      System.out.println("Inside Green::fill() method.");
+   }
+}
+```
+
+**Blue.java**
+
+```java
+public class Blue implements Color {
+ 
+   @Override
+   public void fill() {
+      System.out.println("Inside Blue::fill() method.");
+   }
+}
+```
+
+## 抽象工厂类
+
+为 Color 和 Shape 对象创建抽象类来获取工厂。
+
+```java
+public abstract class AbstractFactory {
+   public abstract Color getColor(String color);
+   public abstract Shape getShape(String shape);
+}
+```
+
+## 具体工厂类
+
+创建扩展了 AbstractFactory 的工厂类 ShapeFactory 和 ColorFactory ，基于给定的信息生成实体类的对象。
+
+**ShapeFactory.java**
+
+```java
+public class ShapeFactory extends AbstractFactory {
+    
+   @Override
+   public Shape getShape(String shapeType){
+      if(shapeType == null){
+         return null;
+      }        
+      if(shapeType.equalsIgnoreCase("CIRCLE")){
+         return new Circle();
+      } else if(shapeType.equalsIgnoreCase("RECTANGLE")){
+         return new Rectangle();
+      } else if(shapeType.equalsIgnoreCase("SQUARE")){
+         return new Square();
+      }
+      return null;
+   }
+   
+   @Override
+   public Color getColor(String color) {
+      return null;
+   }
+}
+```
+
+**ColorFactory.java**
+
+```java
+public class ColorFactory extends AbstractFactory {
+    
+   @Override
+   public Shape getShape(String shapeType){
+      return null;
+   }
+   
+   @Override
+   public Color getColor(String color) {
+      if(color == null){
+         return null;
+      }        
+      if(color.equalsIgnoreCase("RED")){
+         return new Red();
+      } else if(color.equalsIgnoreCase("GREEN")){
+         return new Green();
+      } else if(color.equalsIgnoreCase("BLUE")){
+         return new Blue();
+      }
+      return null;
+   }
+}
+```
+
+## 工厂生成器类
+
+创建一个工厂创造器/生成器类，通过传递形状或颜色信息来获取工厂。
+
+```java
+public class FactoryProducer {
+   public static AbstractFactory getFactory(String choice){
+      if(choice.equalsIgnoreCase("SHAPE")){
+         return new ShapeFactory();
+      } else if(choice.equalsIgnoreCase("COLOR")){
+         return new ColorFactory();
+      }
+      return null;
+   }
+}
+```
+
+## Main
+
+使用 FactoryProducer 来获取 AbstractFactory，通过传递类型信息来获取实体类的对象。
+
+```java
 public class Main {
-    public static void main(String[]args){
-        if (args.length !1){
-            System.out.println("Usage:java Main class.name.of.ConcreteFactory");
-            System.out.println("Example 1:java Main listfactory.ListFactory");
-            System.out.println("Example 2:java Main tablefactory.TableFactory");
-            System.exit(0);
-        }
-        Factory factory Factory.getFactory(args[0]);
-        Link people=factory.createLink("人民日报"，"http://www,people.com.cn/");
-        Link gmw=factory.createLink("光明日报"，"http://www.gmw.cn/");
-        Link us yahoo factory.createLink ("Yahoo!""http://www.yahoo.com/");
-        Link jp_yahoo factory.createLink ("Yahoo!Japan","http://www.yahoo.co.jp/");
-        Link excite factory.createLink("Excite","http://www.excite.com/");
-        Link google factory.createLink ("Google","http://www.google.com/");
-        Tray traynews=factory.createTray("日报");
-        traynews.add(people);
-        traynews.add(gmw);
-        Tray trayyahoo factory.createTray("Yahoo!");
-        trayyahoo.add(us yahoo);
-        trayyahoo.add(jp_yahoo);
-
-        Tray traysearch=factory.createTray("检索引擎");
-        traysearch.add(trayyahoo);
-        traysearch.add(excite);
-        traysearch.add(google);
-        Page page=factory.createPage("LinkPage","杨文轩");
-        page.add(traynews);
-        page.add(traysearch);
-        page.output();
-    }
+   public static void main(String[] args) {
+ 
+      //获取形状工厂
+      AbstractFactory shapeFactory = FactoryProducer.getFactory("SHAPE");
+ 
+      //获取形状为 Circle 的对象
+      Shape shape1 = shapeFactory.getShape("CIRCLE");
+ 
+      //调用 Circle 的 draw 方法
+      shape1.draw();
+ 
+      //获取形状为 Rectangle 的对象
+      Shape shape2 = shapeFactory.getShape("RECTANGLE");
+ 
+      //调用 Rectangle 的 draw 方法
+      shape2.draw();
+      
+      //获取形状为 Square 的对象
+      Shape shape3 = shapeFactory.getShape("SQUARE");
+ 
+      //调用 Square 的 draw 方法
+      shape3.draw();
+ 
+      //获取颜色工厂
+      AbstractFactory colorFactory = FactoryProducer.getFactory("COLOR");
+ 
+      //获取颜色为 Red 的对象
+      Color color1 = colorFactory.getColor("RED");
+ 
+      //调用 Red 的 fill 方法
+      color1.fill();
+ 
+      //获取颜色为 Green 的对象
+      Color color2 = colorFactory.getColor("GREEN");
+ 
+      //调用 Green 的 fill 方法
+      color2.fill();
+ 
+      //获取颜色为 Blue 的对象
+      Color color3 = colorFactory.getColor("BLUE");
+ 
+      //调用 Blue 的 fill 方法
+      color3.fill();
+   }
 }
+
+运行结果：
+
+Inside Circle::draw() method.
+Inside Rectangle::draw() method.
+Inside Square::draw() method.
+Inside Red::fill() method.
+Inside Green::fill() method.
+Inside Blue::fill() method.    
 ```
 
-## 具体的工厂：ListFactory类
+# Abstract Factory模式中的登场角色
 
-之前我们学习了抽象类的代码，现在让我们将视角切换到具体类。首先，我们来看看listfactory包中的工厂—ListFactory类。
+- **AbstractProduct(抽象产品)**
 
-ListFactory类实现了Factory类的createLink方法、createTray方法以及createPage方法。当然，各个方法内部只是分别简单地new出了ListLink类的实例、ListTray类的实例以及ListPage类的实例（根据实际需求，这里可能需要用Prototype模式来进行clone)。
+  AbstractProduct角色负责定义AbstractFactory角色所生成的抽象零件和产品的接口(API)。在示例程序中，由Shape接口、Color接口扮演此角色。
 
-```java
-package listfactory;
+- **AbstractFactory(抽象工厂)**
 
-import factory.*;
+  AbstractFactory角色负责定义用于生成抽象产品的接口(API)。在示例程序中，由AbstractFactory类扮演此角色。
 
-public class ListFactory extends Factory{
-    public Link createLink(String caption,String url){
-        return new ListLink(caption,url);
-    }
+- **Client(委托者)**
 
-    public Tray createTray(String caption){
-        return new ListTray(caption);
-    }
-    public Page createpage(String title,String author){
-        return new ListPage(title,author);
-    }
-}
-```
+  Client角色仅会调用AbstractFactory角色和AbstractProduct角色的接口(API)来进行工作，对于具体的零件、产品和工厂一无所知。在示例程序中，由Main类扮演此角色。
 
-## 具体的零件：ListLink类
+> **Abstract Factory模式的类图**
 
-ListLink类是Link类的子类。在工ist工ink类中必须实现的方法是哪个呢？对了，就是在父类中声明的makeHTML抽象方法。ListLink类使用`<li>`标签和`<a>`标签来制作HTML片段。这段HTML片段也可以与工istTary和ListPag的结果合并起来，就如同将螺栓和螺母拧在一起一样。
+![image-20220513183952451](image/image-20220513183952451.png ":size=70%")
 
-```java
-package listfactory;
+- **ConcreteProduct(具体产品)**
 
-import factory.*;
+  ConcreteProduct角色负责实现AbstractProduct角色的接口(API)。在示例程序中，由以下类扮演此角色：Rectangle类、Square类和Circle类、Red类、Green类和Blue类。
 
-public class ListLink extends Link {
-    public ListLink(String caption,String url){
-        super(caption,url);
-    }
-    public String makeHTML(){
-        return "<li><a href=\"" + url +"\">" + caption + "</a></li>\n";
-    }
-}
-```
+- **ConcreteFactory(具体工厂)**
 
-## 具体的零件：ListTray类
+  ConcreteFactory角色负责实现AbstractFactory角色的接口(API)。在示例程序中，由以下类扮演此角色：ShapeFactory类、ColorFactory类
 
-ListTray类是Tray类的子类。这里我们重点看一下makeHTML方法是如何实现的。tray字段中保存了所有需要以HTML格式输出的Item,而负责将它们以HTML格式输出的就是makeHTML方法了。那么该方法究竟是如何实现的呢？
+# 拓展思路的要点
 
-makeHTML方法首先使用`<li>`标签输出标题(caption)，接着使用`<u1>`和`<li>`标签输出每个Item。输出的结果先暂时保存在StringBuffer中，最后再通过toString方法将输出结果转换为String类型并返回给调用者。
+> **易于增加具体的工厂**
 
-那么，每个Item又是如何输出为HTML格式的呢？当然就是调用每个Item的makeHTM工方法了。请注意，这里并不关心变量item中保存的实例究竟是ListLink的实例还是ListTray的实例，只是简单地调用了item.makeHTML()语句而已。这里**不能使用switch语句或if语句去判断变量item中保存的实例的类型**，否则就是非面向对象编程了。变量item是Item类型的，而Item类又声明了makeHTML方法，而且ListLink类和ListTray类都是Item类的子类，因此可以放心地调用。之后item会帮我们进行处理。至于item究竟进行了什么样的处理只有item的实例（对象）才知道。这就是面向对象的优点。
+在Abstract Factory模式中增加具体的工厂是非常容易的。这里说的“容易”指的是需要编写哪些类和需要实现哪些方法都非常清楚。
 
-这里使用的java.util.Iterator类与我们在Iterator模式一章中所学习的迭代器在功能上是相同的，不过它是Java类库中自带的。为了从java.util.ArrayList类中得到java.util.Iterator，我们调用iterator方法。
+假设现在我们要在示例程序中增加新的具体工厂，那么需要做的就是编写Factory、Link、Tray、Page这4个类的子类，并实现它们定义的抽象方法。也就是说将factory包中的抽象部分全部具体化即可。
 
-```java
-package listfactory;
+这样一来，无论要增加多少个具体工厂（或是要修改具体工厂的Bug)，都无需修改抽象工厂和Main部分。
 
-import factory.*;
-import java.util.Iterator;
+> **难以增加新的零件**
 
-public class ListTray extends Tray {
-    public ListTray(String caption){
-        super(caption);
-    }
-    public String makeHTML (){
-        StringBuffer buffer new StringBuffer();
-        buffer.append ("<li>\n");
-        buffer.append (caption +"\n");
-        buffer.append ("<ul>\n");
-        Iterator it tray.iterator();
-        while (it.hasNext ()){
-            Item item (Item)it.next();
-            buffer.append (item.makeHTML());
-        }
-        buffer.append("</ul>\n");
-        buffer.append ("</1i>\n");
-        return buffer.tostring ()
-    }
-}
-```
-
-## 具体的产品：ListPage类
-
-ListPage类是Page类的子类。关于makeHTML方法，大家应该已经明白了吧。ListPage将字段中保存的内容输出为HTML格式。作者名(author)用`<address>`标签输出。
-
-大家知道为什么while语句被夹在`<u1>...</u1>`之间吗？这是因为在while语句中append的item.makeHTML()的输出结果需要被嵌入在`<ul>...</ul>`之间的缘故。请大家再回顾一下ListLink和ListTray的makeHTML()方法，在它们的最外侧都会有`<li>`标签，就像
-是“螺栓”和“螺母”的接头一样。
-
-while语句的上一条语句中的content继承自Page类的字段。
+请试想一下要在Abstract Factory模式中增加新的零件时应当如何做。例如，我们要在factory包中增加一个表示图像的Picture零件。这时，我们必须要对所有的具体工厂进行相应的修改才行。例如，在listfactory包中，我们必须要做以下修改。
 
