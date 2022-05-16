@@ -1,10 +1,11 @@
-> [!note] <embed src="/_media/ml.svg" type="image/svg+xml" />**目录：**
+> [!note] <embed src="/_media/目录.svg" type="image/svg+xml" />**目录：**
 
 **创建型模式**：对象实例化的模式，创建型模式用于解耦对象的实例化过程
 
 - [Singleton 模式（单例模式）](/框架架构/设计模式/Singleton模式 "Singleton模式")
 - [Factory Method 模式（工厂方法模式）](/框架架构/设计模式/FactoryMethod模式 "Factory Method 模式")
 - [Abstract Factory 模式（抽象工厂）](/框架架构/设计模式/AbstractFactory模式 "AbstractFactory模式")
+- [Builder 模式（建造者模式）](/框架架构/设计模式/Builder模式 "Builder模式")
 
 **结构型模式**：把类或对象结合在一起形成一个更大的结构
 
