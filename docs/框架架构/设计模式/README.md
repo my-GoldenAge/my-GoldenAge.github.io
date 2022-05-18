@@ -6,6 +6,7 @@
 - [Factory Method 模式（工厂方法模式）](/框架架构/设计模式/FactoryMethod模式 "Factory Method 模式")
 - [Abstract Factory 模式（抽象工厂）](/框架架构/设计模式/AbstractFactory模式 "AbstractFactory模式")
 - [Builder 模式（建造者模式）](/框架架构/设计模式/Builder模式 "Builder模式")
+- [Prototype模式（原型模式）](/框架架构/设计模式/Prototype模式 "Prototype模式")
 
 **结构型模式**：把类或对象结合在一起形成一个更大的结构
 
