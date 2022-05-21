@@ -1,3 +1,4 @@
+* [设计模式](/框架架构/设计模式/)
 * [Singleton 模式（单例模式）](/框架架构/设计模式/Singleton模式 "Singleton模式")
 * [Iterator 模式（迭代器模式）](/框架架构/设计模式/Iterator模式 "Iterator模式")
 * [Adapter 模式（适配器模式）](/框架架构/设计模式/Adapter模式 "Adapter模式")
@@ -6,3 +7,4 @@
 * [Abstract Factory 模式（抽象工厂）](/框架架构/设计模式/AbstractFactory模式 "AbstractFactory模式")
 * [Builder 模式（建造者模式）](/框架架构/设计模式/Builder模式 "Builder模式")
 * [Prototype模式（原型模式）](/框架架构/设计模式/Prototype模式 "Prototype模式")
+* [Composite模式（组合模式）](/框架架构/设计模式/Composite模式 "Composite模式")
