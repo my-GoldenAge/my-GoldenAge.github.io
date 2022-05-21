@@ -207,7 +207,7 @@ Daddy-Long-Legs
 
 # Iterator模式的思路要点
 
-> **不管实现如何变化，都可以使用Iterator**
+## 不管实现如何变化，都可以使用Iterator
 
 为什么一定要考虑引人Iterator这种复杂的设计模式呢？如果是数组，直接使用for循环语句进行遍历处理不就可以了吗？为什么要在集合之外引入Iterator这个角色呢？一个重要的理由是，引入Iterator后可以将遍历与实现分离开来。请看下面的代码：
 
@@ -226,7 +226,7 @@ while (it.hasNext()){
 
 这样也就能理解为什么在示例程序中iterator方法的返回值不是BookShelfIterator类型而是Iterator类型了。这表明，这段程序就是要使用Iterator的方法进行编程，而不是BookShelfIterator的方法。
 
-> **难以理解抽象类和接口**
+## 难以理解抽象类和接口
 
 难以理解抽象类和接口的人常常使用ConcreteAggregate角色和Concretelterator角色编程，而不使用Aggregate接口和Iterator接口，他们总想用具体的类来解决所有的问题。
 
@@ -234,7 +234,7 @@ while (it.hasNext()){
 
 这也是贯穿本书的思想。即使大家现在无法完全理解，相信随着深入阅读本书，也一定能够逐渐理解。请大家将**“不要只使用具体类来编程，要优先使用抽象类和接口来编程”**印在脑海中。
 
-> **Aggregate和Iterator的对应**
+## Aggregate和Iterator的对应
 
 请大家仔细回忆一下我们是如何把BookShelfIterator类定义为BookShelf类的Concretelterator角色的。BookShelfIterator类知道BookShelf是如何实现的。也正是因为如此，我们才能调用用来获取下一本书的getBookAt方法。
 
@@ -242,7 +242,7 @@ while (it.hasNext()){
 
 正如Aggregate和Iterator这两个接口是对应的一样，ConcreteAggregate和ConcreteIterator这两个类也是对应的。
 
-> **容易弄错“下一个”**
+## 容易弄错“下一个”
 
 在Iterator模式的实现中，很容易在next方法上出错。该方法的返回值到底是应该指向当前
 元素还是当前元素的下一个元素呢？更详细地讲，next方法的名字应该是下面这样的。
@@ -253,17 +253,17 @@ returnCurrentElementAndAdvanceToNextPosition
 
 也就是说，next方法是“返回当前的元素，并指向下一个元素”。
 
-> **还容易弄错“最后一个”**
+## 还容易弄错“最后一个”
 
 在Iterator模式中，不仅容易弄错“下一个”，还容易弄错“最后一个”。hasNext方法在返回最后一个元素前会返回true,当返回了最后一个元素后则返回false。稍不注意，就会无法正确地返回“最后一个”元素。
 
 请大家将hasNext方法理解成“确认接下来是否可以调用next方法”的方法就可以了。
 
-> **多个Iterator**
+## 多个Iterator
 
 “将遍历功能置于Aggregate角色之外”是Iterator模式的一个特征。根据这个特征，可以针对一个ConcreteAggregate角色编写多个ConcreteIterator角色。
 
-> **迭代器的种类多种多样**
+## 迭代器的种类多种多样
 
 在示例程序中展示的Iterator类只是很简单地从前向后遍历集合。其实，遍历的方法是多种多样的。
 
@@ -271,7 +271,7 @@ returnCurrentElementAndAdvanceToNextPosition
 - 既可以从前向后遍历，也可以从后向前遍历（既有next方法也有previous方法）
 - 指定下标进行“跳跃式”遍历
 
->  **不需要deletelterator**
+## 不需要deletelterator
 
 在Java中，没有被使用的对象实例将会自动被删除（垃圾回收，GC)。因此，在iterator中不需要与其对应的deleteIterator方法。
 

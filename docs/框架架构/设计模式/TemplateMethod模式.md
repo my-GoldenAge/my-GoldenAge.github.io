@@ -231,18 +231,18 @@ public class Main {
 
 # Template Method模式中的思路要点
 
-> **可以使逻辑处理通用化**
+## 可以使逻辑处理通用化
 
 使用Template Method模式究竟能带来什么好处呢？这里，它的优点是由于在父类的模板方法中编写了算法，因此无需在每个子类中再编写算法。
 例如，我们没使用Template Method模式，而是使用文本编辑器的复制和粘贴功能编写了多个ConcreteClass角色。此时，会出现ConcreteClass1、ConcreteClass2、Concreteclass3等很多相似的类。编写完成后立即发现了Bug还好，但如果是过一段时间才发现在ConcreteC1ass1中有Bug,该怎么办呢？这时，我们就必须将这个Bug的修改反映到所有的ConcreteClass角色中才行。
 
 关于这一点，如果是使用Template Method模式进行编程，当我们在模板方法中发现Bug时，只需要修改模板方法即可解决问题。
 
-> **父类与子类之间的协作**
+## 父类与子类之间的协作
 
 在Template Method模式中，父类和子类是紧密联系、共同工作的。因此，在子类中实现父类中声明的抽象方法时，必须要理解这些抽象方法被调用的时机。在看不到父类的源代码的情况下，想要编写出子类是非常困难的。
 
-> **父类与子类的一致性**
+## 父类与子类的一致性
 
 在示例程序中，不论是CharDisplay的实例还是StringDisplay的实例，都是先保存在AbstractDisplay类型的变量中，然后再来调用display方法的。
 

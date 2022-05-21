@@ -219,7 +219,7 @@ public class Main {
 
 # Factory Method模式中的思路要点
 
-> **框架与具体加工**
+## 框架与具体加工
 
 至此，我们分别学习了“框架”与“具体加工”这两方面的内容。它们分别被封装在framework包和idcard包中。
 
@@ -229,7 +229,7 @@ public class Main {
 
 请回忆一下，在framework包中我们并没有引入idcard包。在Product类和Factory类中，并没有出现IDCard和IDCardFactory等具体类的名字。因此，即使用已有的框架生成全新的类时，也完全不需要对framework进行修改，即不需要“将televison包引入到框架中”。关于这一点，我们称作是“framework包不依赖于idcard包”。
 
-> **生成实例—方法的三种实现方式**
+## 生成实例—方法的三种实现方式
 
 在示例程序中，Factory类的createProduct方法是抽象方法，也就是说需要在子类中实现该方法。
 
@@ -276,7 +276,7 @@ createProduct方法的实现方式一般有以下3种。
 
   不过，需要另外编写FactoryMethodRuntimeException异常类。
 
-> **使用模式与开发人员之间的沟通**
+## 使用模式与开发人员之间的沟通
 
 不论是Template Method模式还是本章中学习的Factory Method模式，在实际工作中使用时，都会让我们感觉到比较困难。这是因为，如果仅阅读一个类的代码，是很难理解这个类的行为的。必须要理解父类中所定义的处理的框架和它里面所使用的抽象方法，然后阅
 读代码，了解这些抽象方法在子类中的实现才行。
