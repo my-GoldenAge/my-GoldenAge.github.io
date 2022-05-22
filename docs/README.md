@@ -14,7 +14,7 @@
 
  ![Winner](image/Winner.jpg ":size=100%")
 
-![LGD](image/LGD.jpg ":size=100%")
+ ![QQ图片20220522135024](image/QQ图片20220522135024.png ":size=60%") ![QQ图片20220522135101](image/QQ图片20220522135101.png ":size=60%")
 
 > [!TIP]想你了，森哥
 
