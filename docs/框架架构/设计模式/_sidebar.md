@@ -9,3 +9,4 @@
 * [Prototype模式（原型模式）](/框架架构/设计模式/Prototype模式 "Prototype模式")
 * [Composite模式（组合模式）](/框架架构/设计模式/Composite模式 "Composite模式")
 * [Decorator模式（装饰器模式）](/框架架构/设计模式/Decorator模式 "Decorator模式")
+* [Proxy模式（代理模式）](/框架架构/设计模式/Proxy模式 "Proxy模式")
