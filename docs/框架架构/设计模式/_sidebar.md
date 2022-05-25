@@ -11,3 +11,4 @@
   * [Decorator模式（装饰器模式）](/框架架构/设计模式/Decorator模式 "Decorator模式")
   * [Proxy模式（代理模式）](/框架架构/设计模式/Proxy模式 "Proxy模式")
   * [Flyweight模式（享元模式）](/框架架构/设计模式/Flyweight模式 "Flyweight模式")
+  * [Facade模式（外观模式）](/框架架构/设计模式/Facade模式 "Facade模式")
