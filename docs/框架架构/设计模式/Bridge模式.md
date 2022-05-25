@@ -342,4 +342,4 @@ class SomethingGood extends Something {
 
 如果我们不传递StringDisplayImpl类的实例，而是将其他ConcreteImplementor角色的实例传递给Display类和CountDisplay类，就能很容易地改变实现。这时，发生变化的代码只有Main类，Display类和DisplayImpl类则不需要做任何修改。
 
-继承是强关联关系，委托是弱关联关系。在设计类的时候，我们必须充分理解这一点。在Template Method模式中，我们也讨论了继承和委托的关系，大家可以再回顾一下相关部分的内容。
+继承是强关联关系，委托是弱关联关系。在设计类的时候，我们必须充分理解这一点。在Template Method模式的最后，我们也讨论了继承和委托的关系，大家可以再回顾一下相关部分的内容。
