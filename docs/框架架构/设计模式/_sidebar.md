@@ -13,3 +13,4 @@
   * [Flyweight模式（享元模式）](/框架架构/设计模式/Flyweight模式 "Flyweight模式")
   * [Facade模式（外观模式）](/框架架构/设计模式/Facade模式 "Facade模式")
   * [Bridge模式（桥接模式）](/框架架构/设计模式/Bridge模式 "Bridge模式")
+  * [Strategy模式（策略模式）](/框架架构/设计模式/Strategy模式 "Strategy模式")

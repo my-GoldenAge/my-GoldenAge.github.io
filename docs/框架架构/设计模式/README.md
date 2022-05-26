@@ -22,6 +22,7 @@
 
 - [Iterator 模式（迭代器模式）](/框架架构/设计模式/Iterator模式 "Iterator模式")
 - [Template Method 模式（模板方法模式）](/框架架构/设计模式/TemplateMethod模式 "TemplateMethod模式")
+- [Strategy模式（策略模式）](/框架架构/设计模式/Strategy模式 "Strategy模式")
 
 > [!tip]**什么是 GOF（四人帮，全拼 Gang of Four）？**
 
