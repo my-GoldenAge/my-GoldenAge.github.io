@@ -24,8 +24,9 @@
 - [Template Method 模式（模板方法模式）](/框架架构/设计模式/TemplateMethod模式 "TemplateMethod模式")
 - [Strategy模式（策略模式）](/框架架构/设计模式/Strategy模式 "Strategy模式")
 - [Command模式（命令模式）](/框架架构/设计模式/Command模式 "Command模式")
+- [State模式（状态模式）](/框架架构/设计模式/State模式 "State模式")
 
-> [!tip]**什么是 GOF（四人帮，全拼 Gang of Four）？**
+> [!tip|label:什么是 GOF（四人帮，全拼 Gang of Four）？]
 
 在 1994 年，由 Erich Gamma、Richard Helm、Ralph Johnson 和 John Vlissides 四人合著出版了一本名为 **Design Patterns - Elements of Reusable Object-Oriented Software（中文译名：设计模式 - 可复用的面向对象软件元素）** 的书，该书首次提到了软件开发中设计模式的概念。
 
@@ -34,7 +35,7 @@
 - 对接口编程而不是对实现编程。
 - 优先使用对象组合而不是继承。
 
-> [!note]**设计模式的六大原则**
+> [!note|label:设计模式的六大原则]
 
 **1、开闭原则（Open Close Principle）**
 
@@ -60,7 +61,7 @@
 
 合成复用原则是指：尽量使用合成/聚合的方式，而不是使用继承。
 
-> [!tip]**前言：**
+> [!tip|label:前言：]
 
 > 展示类的层次关系的类图
 

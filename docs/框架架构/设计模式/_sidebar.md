@@ -15,3 +15,4 @@
   * [Bridge模式（桥接模式）](/框架架构/设计模式/Bridge模式 "Bridge模式")
   * [Strategy模式（策略模式）](/框架架构/设计模式/Strategy模式 "Strategy模式")
   * [Command模式（命令模式）](/框架架构/设计模式/Command模式 "Command模式")
+  * [State模式（状态模式）](/框架架构/设计模式/State模式 "State模式")
