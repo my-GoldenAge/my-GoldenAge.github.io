@@ -14,7 +14,13 @@ Adapter模式有以下两种：
 - **类适配器模式（使用继承的适配器)**
 - **对象适配器模式（使用委托的适配器）**
 
-# 使用继承的适配器
+# Java伪代码
+
+> 复杂度：⭐
+>
+> 流行度：⭐⭐⭐
+
+## 使用继承的适配器
 
 首先，让我们来看一段使用继承的适配器的示例程序。这里的示例程序是一段会将输入的字符串显示为`(He11o)`或是`*He11o*`的简单程序。
 
@@ -34,7 +40,7 @@ Adapter模式有以下两种：
 
 ![image-20220504131110826](image/image-20220504131110826.png ":size=70%")
 
-## Banner(Banner.java)
+### Banner(Banner.java)
 
 ```java
 public class Banner {
@@ -51,7 +57,7 @@ public class Banner {
 }
 ```
 
-## Print接口(Print.java)
+### Print接口(Print.java)
 
 ```java
 public interface Print {
@@ -60,7 +66,7 @@ public interface Print {
 }
 ```
 
-## PrintBanner类(PrintBanner.java)
+### PrintBanner类(PrintBanner.java)
 
 ```java
 public class PrintBanner extends Banner implements Print {
@@ -78,7 +84,7 @@ public class PrintBanner extends Banner implements Print {
 
 PrintBanner类扮演适配器的角色。它继承(extends)了Banner类，继承了showwithParen方法和showwithAster方法。同时，它又实现(implements)了Print接口，实现了printWeak方法和printStrong方法。
 
-## Main类(Main.java)
+### Main类(Main.java)
 
 ```java
 public class Main {
@@ -101,7 +107,7 @@ Main类的作用是通过扮演适配器角色的PrintBanner类来弱化（带�
 
 Main类并不知道PrintBanner类是如何实现的，这样就可以在不用对Main类进行修改的情况下改变PrintBanner类的具体实现。
 
-# 使用委托的适配器
+## 使用委托的适配器
 
 之前的示例程序展示了类适配器模式。下面我们再来看看对象适配器模式。在之前的示例程序中，我们使用“继承”实现适配，而这次我们要使用“委托”来实现适配。
 
@@ -123,7 +129,7 @@ PrintBanner类的banner字段中保存了Banner类的实例。该实例是在Pri
 
 ![image-20220504132410590](image/image-20220504132410590.png ":size=65%") 
 
-## Print类(Print.java)
+### Print类(Print.java)
 
 ```java
 public abstract class Print {
@@ -132,7 +138,7 @@ public abstract class Print {
 }
 ```
 
-## PrintBanner(PrintBanner.java)
+### PrintBanner(PrintBanner.java)
 
 ```java
 public class PrintBanner extends Print {

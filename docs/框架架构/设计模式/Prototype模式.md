@@ -26,11 +26,15 @@ new Something();
 
 在Java语言中，我们可以使用clone创建出实例的副本。在本章中，我们将学习clone方法与Cloneable接口的使用方法。
 
-# 示例程序
+# Java伪代码
+
+> 复杂度：⭐
+>
+> 流行度：⭐⭐
 
 首先让我们来看一段使用了Prototype模式的示例程序。以下这段示例程序的功能是将字符串放入方框中显示出来或是加上下划线显示出来。
 
-示例程序中的类和接口的一览表请参见表6-l。Product接口和Manager类属于framework包，负责复制实例。虽然Manager类会调用createClone方法，但是对于具体要复制哪个类一无所知。不过，只要是实现了Product接口的类，调用它的createClone方法就可以复制出新的实例。
+Product接口和Manager类属于framework包，负责复制实例。虽然Manager类会调用createClone方法，但是对于具体要复制哪个类一无所知。不过，只要是实现了Product接口的类，调用它的createClone方法就可以复制出新的实例。
 
 MessageBox类和UnderlinePen类是两个实现了Product接口的类。只要事先将这两个类“注册”到Manager类中，就可以随时复制新的实例。
 
