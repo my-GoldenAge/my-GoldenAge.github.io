@@ -26,7 +26,7 @@ new Something();
 
 在Java语言中，我们可以使用clone创建出实例的副本。在本章中，我们将学习clone方法与Cloneable接口的使用方法。
 
-# Java伪代码
+# 在 Java 中使用该模式
 
 > 复杂度：⭐
 >
