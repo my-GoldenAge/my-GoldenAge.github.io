@@ -16,3 +16,4 @@
   * [Strategy模式（策略模式）](/框架架构/设计模式/Strategy模式 "Strategy模式")
   * [Command模式（命令模式）](/框架架构/设计模式/Command模式 "Command模式")
   * [State模式（状态模式）](/框架架构/设计模式/State模式 "State模式")
+  * [Chain of Responsibility模式（责任链模式）](/框架架构/设计模式/ChainofResponsibility模式 "Chain of Responsibility模式")

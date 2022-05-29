@@ -1,4 +1,4 @@
-> [!note] <embed src="/_media/目录.svg" type="image/svg+xml" />**目录：**
+> [!note|label:目录：]
 
 **创建型模式**：对象实例化的模式，创建型模式用于解耦对象的实例化过程
 
@@ -25,8 +25,9 @@
 - [Strategy模式（策略模式）](/框架架构/设计模式/Strategy模式 "Strategy模式")
 - [Command模式（命令模式）](/框架架构/设计模式/Command模式 "Command模式")
 - [State模式（状态模式）](/框架架构/设计模式/State模式 "State模式")
+- [Chain of Responsibility模式（责任链模式）](/框架架构/设计模式/ChainofResponsibility模式 "Chain of Responsibility模式")
 
-> [!tip|label:什么是 GOF（四人帮，全拼 Gang of Four）？]
+> [!warning|label:什么是 GOF（四人帮，全拼 Gang of Four）？]
 
 在 1994 年，由 Erich Gamma、Richard Helm、Ralph Johnson 和 John Vlissides 四人合著出版了一本名为 **Design Patterns - Elements of Reusable Object-Oriented Software（中文译名：设计模式 - 可复用的面向对象软件元素）** 的书，该书首次提到了软件开发中设计模式的概念。
 

@@ -60,7 +60,7 @@
 
 4. 上下文和具体状态都可以设置上下文的下个状态， 并可通过替换连接到上下文的状态对象来完成实际的状态转换。
 
-# 媒体播放器的接口
+# 伪代码示例
 
 **使用示例：** 在 Java 语言中， 状态模式通常被用于将基于 `switch`语句的大型状态机转换为对象。
 
@@ -69,6 +69,8 @@
 - [`javax.faces.lifecycle.LifeCycle#execute()`](https://docs.oracle.com/javaee/7/api/javax/faces/lifecycle/Lifecycle.html#execute-javax.faces.context.FacesContext-) （由[`Faces­Servlet`](https://docs.oracle.com/javaee/7/api/javax/faces/webapp/FacesServlet.html)控制： 行为依赖于当前 JSF 生命周期的阶段 （状态））
 
 **识别方法：** 状态模式可通过受外部控制且能根据对象状态改变行为的方法来识别。
+
+## 媒体播放器的接口
 
 在本例中， 状态模式允许媒体播放器根据当前的回放状态进行不同的控制行为。 播放器主类包含一个指向状态对象的引用， 它将完成播放器的绝大部分工作。 某些行为可能会用一个状态对象替换另一个状态对象， 改变播放器对用户交互的回应方式。
 
@@ -387,6 +389,10 @@ public class Demo {
     }
 }
 ```
+
+**运行结果：**
+
+ ![img](image/OutputDemo.png)
 
 # 状态模式适合应用场景
 
