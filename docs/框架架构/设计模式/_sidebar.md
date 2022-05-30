@@ -19,3 +19,4 @@
   * [Chain of Responsibility模式（责任链模式）](/框架架构/设计模式/ChainofResponsibility模式 "Chain of Responsibility模式")
   * [Memento模式（备忘录模式）](/框架架构/设计模式/Memento模式 "Memento模式")
   * [Mediator模式（中介者模式）](/框架架构/设计模式/Mediator模式 "Mediator模式")
+  * [Observer模式（观察者模式）](/框架架构/设计模式/Observer模式 "Observer模式")
