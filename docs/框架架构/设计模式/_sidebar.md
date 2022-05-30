@@ -20,3 +20,4 @@
   * [Memento模式（备忘录模式）](/框架架构/设计模式/Memento模式 "Memento模式")
   * [Mediator模式（中介者模式）](/框架架构/设计模式/Mediator模式 "Mediator模式")
   * [Observer模式（观察者模式）](/框架架构/设计模式/Observer模式 "Observer模式")
+  * [Visitor模式（访问者模式）](/框架架构/设计模式/Visitor模式 "Visitor模式")
