@@ -44,12 +44,18 @@
         noData: '❌找不到结果',
         depth: 3,
       },
-      footer: {
-        copy: '<span id="sitetime"></span> <br/> <span>Copyright &copy; 🎆 </span>',
-        auth: ' <strong>-跳刀-</strong>',
-        pre: '<hr/>',
-        style: 'text-align: center;',
-      },
+      // footer: {
+      //   copy: '<span id="sitetime"></span> <br/> <span>Copyright &copy; 🎆 </span>',
+      //   auth: ' <strong>-跳刀-</strong>',
+      //   pre: '<hr/>',
+      //   style: 'text-align: center;',
+      // },
+
+      // load from _footer.md
+      loadFooter: true,
+      // Or load from _footer.md
+      loadFooter: '_footer.md',
+
       topMargin: 25, // default: 0 让你的内容页在滚动到指定的锚点时，距离页面顶部有一定空间。
       auto2top: true,
       mergeNavbar: true, // 小屏设备下合并导航栏到侧边栏
@@ -80,7 +86,12 @@
         },
         isExpected: true
       },
-
+      pagination: {
+        previousText: '上一章节',
+        nextText: '下一章节',
+        crossChapter: true,
+        crossChapterText: true,
+      },
     }
   </script>
   <!-- Docsify v4 -->
@@ -139,7 +150,9 @@
   <script src="//cdn.jsdelivr.net/npm/docsify-plugin-flexible-alerts/dist/docsify-plugin-flexible-alerts.min.js"></script>
 
   <!-- 文档页脚增强 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify-footer-enh/dist/docsify-footer.min.js"></script>
+  <!-- <script src="//cdn.jsdelivr.net/npm/docsify-footer-enh/dist/docsify-footer.min.js"></script> -->
+  <!-- use the footer plugin latest version -->
+  <script src="//cdn.jsdelivr.net/npm/@alertbox/docsify-footer/dist/docsify-footer.min.js"></script>
 
   <!-- 数字统计 -->
   <script src="//unpkg.com/docsify-count/dist/countable.js"></script>
@@ -186,6 +199,8 @@
     siteTime();
   </script>
 
+  <!-- 章节按钮 -->
+  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
 
 </body>
 </html>
