@@ -1,6 +1,10 @@
-> [!note]JavaScript相关博客（工具）见左侧边栏
+> [!note]
+>
+> [**JavaScript教程（挺全的）**](https://wangdoc.com/javascript/)
 
-> **下面是JavaScript大纲：**
+---
+
+> **下面是MDN版JavaScript大纲：**
 
 # [JavaScript](https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript)
 
